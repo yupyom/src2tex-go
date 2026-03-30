@@ -1,0 +1,351 @@
+\documentclass{article}
+\usepackage{iftex}
+\ifXeTeX
+  \usepackage{fontspec}
+  \usepackage{xeCJK}
+  \setmonofont[Path=/Users/yupyom/.src2tex/fonts/hackgen/, BoldFont=HackGen-Bold.ttf]{HackGen-Regular.ttf}
+  \setCJKmonofont[Path=/Users/yupyom/.src2tex/fonts/hackgen/, BoldFont=HackGen-Bold.ttf]{HackGen-Regular.ttf}
+  \setCJKmainfont[Path=/usr/local/texlive/2026/texmf-dist/fonts/opentype/public/haranoaji/, Extension=.otf, BoldFont=HaranoAjiMincho-Bold.otf]{HaranoAjiMincho-Regular}
+  \XeTeXlinebreaklocale ""
+  \xeCJKsetup{CJKglue={},CJKecglue={}}
+\fi
+\ifLuaTeX
+  \usepackage{luatexja-fontspec}
+  \setmonofont[Path=/Users/yupyom/.src2tex/fonts/hackgen/, BoldFont=HackGen-Bold.ttf]{HackGen-Regular.ttf}
+  \setmainjfont{HaranoAjiMincho-Regular.otf}
+  \ltjsetparameter{kanjiskip=0pt, xkanjiskip=0pt}
+\fi
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage{graphicx}
+\newdimen\charwd
+{\tt\global\setbox0=\hbox{x}\global\charwd=\wd0}
+\frenchspacing
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhf{}
+\fancyhead[R]{\rm src2tex-go version 2.23}
+% plain TeX compatibility
+\makeatletter
+\providecommand{\eqalign}[1]{\vcenter{\openup1\jot\m@th
+  \ialign{\strut\hfil$\displaystyle{##}$&$\displaystyle{{}##}$\hfil\crcr#1\crcr}}}
+\makeatother
+\fancyfoot[R]{\rm\hfill samples{\tt /}hanoi.pas\qquad page \thepage}
+\begin{document}
+
+\ifx\sevenrm\undefined
+  \font\sevenrm=cmr7 scaled \magstep0
+\fi
+
+\newread\MyStyle
+\openin\MyStyle=src2latex.s2t
+\ifeof\MyStyle
+  \closein\MyStyle
+\else
+  \input src2latex.s2t
+  \closein\MyStyle
+\fi
+
+\def\mc{\relax}
+\def\gt{\relax}
+\def\sc{\scshape}
+
+\tt\mc 
+
+\noindent
+\rm\mc {\tt\char'173}\  \hrulefill  \rm\mc 
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}\ \  {}% beginning of TeX mode  \rm\mc \ 
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}\ \  {}\centerline{\bf Towers of Hanoi (Pascal)}  \rm\mc \ 
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}\ \  {}\begin{quote}  \rm\mc \ 
+
+\noindent
+\mbox{}\ \  {}\noindent  \rm\mc \ 
+
+\noindent
+\mbox{}\ \  {}This program gives an answer to the following famous problem (towers of  \rm\mc \ 
+
+\noindent
+\mbox{}\ \  {}Hanoi).  \rm\mc \ 
+
+\noindent
+\mbox{}\ \  {}There is a legend that when one of the temples in Hanoi was constructed,  \rm\mc \ 
+
+\noindent
+\mbox{}\ \  {}three poles were erected and a tower consisting of 64 golden discs was  \rm\mc \ 
+
+\noindent
+\mbox{}\ \  {}arranged on one pole, their sizes decreasing regularly from bottom to top.  \rm\mc \ 
+
+\noindent
+\mbox{}\ \  {}The monks were to move the tower of discs to the opposite pole, moving  \rm\mc \ 
+
+\noindent
+\mbox{}\ \  {}only one at a time, and never putting any size disc above a smaller one.  \rm\mc \ 
+
+\noindent
+\mbox{}\ \  {}The job was to be done in the minimum numbers of moves. What strategy for  \rm\mc \ 
+
+\noindent
+\mbox{}\ \  {}moving discs will accomplish this optimum transfer?  \rm\mc \ 
+
+\noindent
+\mbox{}\ \  {}\end{quote}  \rm\mc \ 
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}\ \  {}% end of TeX mode  \rm\mc \ 
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}\ \  \hrulefill  \rm\mc \ {\tt\char'175}
+\tt\mc 
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}{\textbf{p}}{\textbf{r}}{\textbf{o}}{\textbf{g}}{\textbf{r}}{\textbf{a}}{\textbf{m}}{\tt\mc \ }Hanoi;
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}{\textbf{c}}{\textbf{o}}{\textbf{n}}{\textbf{s}}{\textbf{t}}
+
+\noindent
+\mbox{}{\tt\mc \ \ }ARRAYSIZE{\tt\mc \ }={\tt\mc \ }8;{\tt\mc \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\rm\mc {\tt\char'173}\ disc\ の数\ {\tt\char'175}
+\tt\mc 
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}{\textbf{v}}{\textbf{a}}{\textbf{r}}
+
+\noindent
+\mbox{}{\tt\mc \ \ }disc:{\tt\mc \ }{\textbf{a}}{\textbf{r}}{\textbf{r}}{\textbf{a}}{\textbf{y}}[0..2,{\tt\mc \ }0..ARRAYSIZE{\tt -}1]{\tt\mc \ }{\textbf{o}}{\textbf{f}}{\tt\mc \ }integer;{\tt\mc \ \ \ }\rm\mc {\tt\char'173}\ disc\ に関するデータの置き場所\ {\tt\char'175}
+\tt\mc 
+
+\noindent
+\mbox{}{\tt\mc \ \ }ptr:{\tt\mc \ }{\textbf{a}}{\textbf{r}}{\textbf{r}}{\textbf{a}}{\textbf{y}}[0..2]{\tt\mc \ }{\textbf{o}}{\textbf{f}}{\tt\mc \ }integer;{\tt\mc \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\rm\mc {\tt\char'173}\ スタックのポインタ\ {\tt\char'175}
+\tt\mc 
+
+\noindent
+\mbox{}{\tt\mc \ \ }counter:{\tt\mc \ }integer;{\tt\mc \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\rm\mc {\tt\char'173}\ 移動回数カウンタ\ {\tt\char'175}
+\tt\mc 
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}{\textbf{p}}{\textbf{r}}{\textbf{o}}{\textbf{c}}{\textbf{e}}{\textbf{d}}{\textbf{u}}{\textbf{r}}{\textbf{e}}{\tt\mc \ }InitArray;{\tt\mc \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\rm\mc {\tt\char'173}\ disc\ 移動用アレイ\ {\tt\char'175}
+\tt\mc 
+
+\noindent
+\mbox{}{\textbf{v}}{\textbf{a}}{\textbf{r}}
+
+\noindent
+\mbox{}{\tt\mc \ \ }j:{\tt\mc \ }integer;
+
+\noindent
+\mbox{}{\textbf{b}}{\textbf{e}}{\textbf{g}}{\textbf{i}}{\textbf{n}}
+
+\noindent
+\mbox{}{\tt\mc \ \ }{\textbf{f}}{\textbf{o}}{\textbf{r}}{\tt\mc \ }j{\tt\mc \ }:={\tt\mc \ }0{\tt\mc \ }{\textbf{t}}{\textbf{o}}{\tt\mc \ }ARRAYSIZE{\tt\mc \ }{\tt -}{\tt\mc \ }1{\tt\mc \ }{\textbf{d}}{\textbf{o}}
+
+\noindent
+\mbox{}{\tt\mc \ \ }{\textbf{b}}{\textbf{e}}{\textbf{g}}{\textbf{i}}{\textbf{n}}
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }disc[0][j]{\tt\mc \ }:={\tt\mc \ }ARRAYSIZE{\tt\mc \ }{\tt -}{\tt\mc \ }j;
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }disc[1][j]{\tt\mc \ }:={\tt\mc \ }0;
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }disc[2][j]{\tt\mc \ }:={\tt\mc \ }0;
+
+\noindent
+\mbox{}{\tt\mc \ \ }{\textbf{e}}{\textbf{n}}{\textbf{d}};
+
+\noindent
+\mbox{}{\tt\mc \ \ }ptr[0]{\tt\mc \ }:={\tt\mc \ }ARRAYSIZE;
+
+\noindent
+\mbox{}{\tt\mc \ \ }ptr[1]{\tt\mc \ }:={\tt\mc \ }0;
+
+\noindent
+\mbox{}{\tt\mc \ \ }ptr[2]{\tt\mc \ }:={\tt\mc \ }0;
+
+\noindent
+\mbox{}{\textbf{e}}{\textbf{n}}{\textbf{d}};
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}{\textbf{p}}{\textbf{r}}{\textbf{o}}{\textbf{c}}{\textbf{e}}{\textbf{d}}{\textbf{u}}{\textbf{r}}{\textbf{e}}{\tt\mc \ }PrintResult;{\tt\mc \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\rm\mc {\tt\char'173}\ 結果の表示\ {\tt\char'175}
+\tt\mc 
+
+\noindent
+\mbox{}{\textbf{v}}{\textbf{a}}{\textbf{r}}
+
+\noindent
+\mbox{}{\tt\mc \ \ }i,{\tt\mc \ }j:{\tt\mc \ }integer;
+
+\noindent
+\mbox{}{\textbf{b}}{\textbf{e}}{\textbf{g}}{\textbf{i}}{\textbf{n}}
+
+\noindent
+\mbox{}{\tt\mc \ \ }counter{\tt\mc \ }:={\tt\mc \ }counter{\tt\mc \ }+{\tt\mc \ }1;
+
+\noindent
+\mbox{}{\tt\mc \ \ }writeln('{\tt -}{\tt -}{\tt -}',{\tt\mc \ }counter,{\tt\mc \ }'{\tt -}{\tt -}{\tt -}');
+
+\noindent
+\mbox{}{\tt\mc \ \ }{\textbf{f}}{\textbf{o}}{\textbf{r}}{\tt\mc \ }i{\tt\mc \ }:={\tt\mc \ }0{\tt\mc \ }{\textbf{t}}{\textbf{o}}{\tt\mc \ }2{\tt\mc \ }{\textbf{d}}{\textbf{o}}
+
+\noindent
+\mbox{}{\tt\mc \ \ }{\textbf{b}}{\textbf{e}}{\textbf{g}}{\textbf{i}}{\textbf{n}}
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }write('[',{\tt\mc \ }i,{\tt\mc \ }']{\tt\mc \ }');
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }{\textbf{f}}{\textbf{o}}{\textbf{r}}{\tt\mc \ }j{\tt\mc \ }:={\tt\mc \ }0{\tt\mc \ }{\textbf{t}}{\textbf{o}}{\tt\mc \ }ARRAYSIZE{\tt\mc \ }{\tt -}{\tt\mc \ }1{\tt\mc \ }{\textbf{d}}{\textbf{o}}
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }{\textbf{b}}{\textbf{e}}{\textbf{g}}{\textbf{i}}{\textbf{n}}
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ \ \ }{\textbf{i}}{\textbf{f}}{\tt\mc \ }disc[i][j]{\tt\mc \ }{\tt <}{\tt >}{\tt\mc \ }0{\tt\mc \ }{\textbf{t}}{\textbf{h}}{\textbf{e}}{\textbf{n}}
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ \ \ \ \ }write(disc[i][j],{\tt\mc \ }'{\tt\mc \ }')
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ \ \ }{\textbf{e}}{\textbf{l}}{\textbf{s}}{\textbf{e}}
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ \ \ \ \ }break;
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }{\textbf{e}}{\textbf{n}}{\textbf{d}};
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }writeln;
+
+\noindent
+\mbox{}{\tt\mc \ \ }{\textbf{e}}{\textbf{n}}{\textbf{d}};
+
+\noindent
+\mbox{}{\textbf{e}}{\textbf{n}}{\textbf{d}};
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}{\textbf{p}}{\textbf{r}}{\textbf{o}}{\textbf{c}}{\textbf{e}}{\textbf{d}}{\textbf{u}}{\textbf{r}}{\textbf{e}}{\tt\mc \ }MoveOneDisc(i,{\tt\mc \ }j:{\tt\mc \ }integer);{\tt\mc \ \ \ \ \ \ \ }\rm\mc {\tt\char'173}\ 1枚の\ disc\ を\ pole\ i\ から\ pole\ j\ に移動する\ {\tt\char'175}
+\tt\mc 
+
+\noindent
+\mbox{}{\textbf{b}}{\textbf{e}}{\textbf{g}}{\textbf{i}}{\textbf{n}}
+
+\noindent
+\mbox{}{\tt\mc \ \ }ptr[i]{\tt\mc \ }:={\tt\mc \ }ptr[i]{\tt\mc \ }{\tt -}{\tt\mc \ }1;
+
+\noindent
+\mbox{}{\tt\mc \ \ }disc[j][ptr[j]]{\tt\mc \ }:={\tt\mc \ }disc[i][ptr[i]];
+
+\noindent
+\mbox{}{\tt\mc \ \ }ptr[j]{\tt\mc \ }:={\tt\mc \ }ptr[j]{\tt\mc \ }+{\tt\mc \ }1;
+
+\noindent
+\mbox{}{\tt\mc \ \ }disc[i][ptr[i]]{\tt\mc \ }:={\tt\mc \ }0;
+
+\noindent
+\mbox{}{\textbf{e}}{\textbf{n}}{\textbf{d}};
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}{\textbf{p}}{\textbf{r}}{\textbf{o}}{\textbf{c}}{\textbf{e}}{\textbf{d}}{\textbf{u}}{\textbf{r}}{\textbf{e}}{\tt\mc \ }MoveDiscs(n,{\tt\mc \ }i,{\tt\mc \ }j,{\tt\mc \ }k:{\tt\mc \ }integer);{\tt\mc \ \ \ }\rm\mc {\tt\char'173}\ n\ 枚を移動\ {\tt\char'175}
+\tt\mc 
+
+\noindent
+\mbox{}{\textbf{b}}{\textbf{e}}{\textbf{g}}{\textbf{i}}{\textbf{n}}{\tt\mc \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\rm\mc {\tt\char'173}\ pole\ i\ から\ pole\ j\ {\tt\char'175}
+\tt\mc 
+
+\noindent
+\mbox{}{\tt\mc \ \ }{\textbf{i}}{\textbf{f}}{\tt\mc \ }n{\tt\mc \ }{\tt >}={\tt\mc \ }1{\tt\mc \ }{\textbf{t}}{\textbf{h}}{\textbf{e}}{\textbf{n}}{\tt\mc \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\rm\mc {\tt\char'173}\ pole\ k\ 経由で\ {\tt\char'175}
+\tt\mc 
+
+\noindent
+\mbox{}{\tt\mc \ \ }{\textbf{b}}{\textbf{e}}{\textbf{g}}{\textbf{i}}{\textbf{n}}
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }MoveDiscs(n{\tt\mc \ }{\tt -}{\tt\mc \ }1,{\tt\mc \ }i,{\tt\mc \ }k,{\tt\mc \ }j);
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }MoveOneDisc(i,{\tt\mc \ }j);{\tt\mc \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\rm\mc {\tt\char'173}\ move{\tt\_}discs()\ で自分自身を移動\ {\tt\char'175}
+\tt\mc 
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }PrintResult;
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }MoveDiscs(n{\tt\mc \ }{\tt -}{\tt\mc \ }1,{\tt\mc \ }k,{\tt\mc \ }j,{\tt\mc \ }i);
+
+\noindent
+\mbox{}{\tt\mc \ \ }{\textbf{e}}{\textbf{n}}{\textbf{d}};
+
+\noindent
+\mbox{}{\textbf{e}}{\textbf{n}}{\textbf{d}};
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}{\textbf{b}}{\textbf{e}}{\textbf{g}}{\textbf{i}}{\textbf{n}}
+
+\noindent
+\mbox{}{\tt\mc \ \ }counter{\tt\mc \ }:={\tt\mc \ }0;
+
+\noindent
+\mbox{}{\tt\mc \ \ }InitArray;
+
+\noindent
+\mbox{}{\tt\mc \ \ }PrintResult;
+
+\noindent
+\mbox{}{\tt\mc \ \ }MoveDiscs(ARRAYSIZE,{\tt\mc \ }0,{\tt\mc \ }2,{\tt\mc \ }1);
+
+\noindent
+\mbox{}{\textbf{e}}{\textbf{n}}{\textbf{d}}.
+
+\noindent
+\mbox{}
+
+\rm\mc
+
+\end{document}

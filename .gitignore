@@ -1,0 +1,38 @@
+# Binaries
+src2latex
+src2latex.exe
+src2latex-*
+src2tex
+src2tex.exe
+# Legacy binary name
+src2latexg
+src2latexg.exe
+
+# go-task cache
+.task/
+
+# Generated TeX/PDF output in samples
+samples/*.aux
+samples/*.log
+samples/*.synctex.gz
+
+# EPS→PDF auto-converted files (keep original .eps)
+samples/hanoi1.pdf
+samples/hanoi2.pdf
+samples/newton.pdf
+samples/simpson.pdf
+samples/solution.pdf
+
+# Test output
+testtex.pdf
+testtex.tex
+
+# macOS
+.DS_Store
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~

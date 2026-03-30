@@ -1,0 +1,316 @@
+\documentclass{article}
+\usepackage{iftex}
+\ifXeTeX
+  \usepackage{fontspec}
+  \usepackage{xeCJK}
+  \usepackage[haranoaji]{zxjafont}
+  \XeTeXlinebreaklocale ""
+\fi
+\ifLuaTeX
+  \usepackage[haranoaji]{luatexja-preset}
+\fi
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage{graphicx}
+\newdimen\charwd
+{\tt\global\setbox0=\hbox{x}\global\charwd=\wd0}
+\frenchspacing
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhf{}
+\fancyhead[R]{\rm src2tex-go version 2.23}
+% plain TeX compatibility
+\makeatletter
+\providecommand{\eqalign}[1]{\vcenter{\openup1\jot\m@th
+  \ialign{\strut\hfil$\displaystyle{##}$&$\displaystyle{{}##}$\hfil\crcr#1\crcr}}}
+\makeatother
+\fancyfoot[R]{\rm\hfill samples{\tt /}sqrt{\tt\_}mat.red\qquad page \thepage}
+\begin{document}
+
+\ifx\sevenrm\undefined
+  \font\sevenrm=cmr7 scaled \magstep0
+\fi
+
+\newread\MyStyle
+\openin\MyStyle=src2latex.s2t
+\ifeof\MyStyle
+  \closein\MyStyle
+\else
+  \input src2latex.s2t
+  \closein\MyStyle
+\fi
+
+\def\mc{\relax}
+\def\gt{\relax}
+\def\sc{\scshape}
+
+\tt\mc 
+
+\noindent
+\rm\mc {\tt\%}\kern1\charwd  \bf sqrt\_mat.red \rm\mc 
+
+\noindent
+\mbox{}\tt\mc \hfill
+
+\noindent
+\mbox{}\rm\mc {\tt\%}\kern1\charwd  {}For a given $2\times2$ matrix $\,A\ge0\,$, we shall prove that
+ $$
+ \sqrt{A}={1\over\sqrt{2\sqrt{ac-b^2}+a+c}}
+ \pmatrix{
+ \sqrt{ac-b^2}+a & b \cr
+ b & \sqrt{ac-b^2}+c \cr}
+ $$ \rm\mc 
+
+\noindent
+\mbox{}{\tt\%}
+
+\noindent
+\mbox{}\tt\mc \hfill
+
+\noindent
+\mbox{}on{\tt\mc \kern1\charwd}d\kern-.455em d\kern-.045em i\kern-.455em i\kern-.045em v\kern-.455em v\kern-.045em ;
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}\rm\mc {\tt\%}\kern1\charwd  {}For a given matrix
+ $
+ A=\pmatrix{ a & b \cr b & c \cr}
+ $
+ ,\ we shall find a matrix
+ $
+ X=\pmatrix{ x & y \cr y & z \cr}
+ $
+ satisfying $A=X^2$. \rm\mc 
+
+\noindent
+\mbox{}{\tt\%}
+
+\noindent
+\mbox{}\tt\mc \hfill
+
+\noindent
+\mbox{}mat{\tt\_\kern.141em}a:=mat((a,b),(b,c));
+
+\noindent
+\mbox{}mat{\tt\_\kern.141em}x:=mat((x,y),(y,z));
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}\rm\mc {\tt\%}\kern1\charwd  {}The equation
+ $\,A=X^2\,$ is translated into algebraic equations
+ $$
+ x^2+y^2=a,\ y(x+z)=b,\ y^2+z^2=c \leqno(1)
+ $$ \rm\mc 
+
+\noindent
+\mbox{}{\tt\%}
+
+\noindent
+\mbox{}\tt\mc \hfill
+
+\noindent
+\mbox{}mat{\tt\_\kern.141em}xx:=mat{\tt\_\kern.141em}x{\tt *}mat{\tt\_\kern.141em}x;
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}\rm\mc {\tt\%}\kern1\charwd  {}(1) is equivalent to
+ $$
+ x=\sqrt{a-y^2},
+	\ y\bigl(\sqrt{a-y^2}+\sqrt{c-y^2}\,\bigr)=b,
+	\ z=\sqrt{c-y^2} \leqno(2)
+ $$
+ We put
+ $$
+ f(y)=\sqrt{a-y^2},
+ \ g(y)=y\bigl(\sqrt{a-y^2}+\sqrt{c-y^2}\,\bigr)-b,
+ \ h(y)=\sqrt{c-y^2} \leqno(3)
+ $$ \rm\mc 
+
+\noindent
+\mbox{}{\tt\%}
+
+\noindent
+\mbox{}\tt\mc \hfill
+
+\noindent
+\mbox{}func{\tt\_\kern.141em}f:=rhs(first(solve(mat{\tt\_\kern.141em}xx(1,1)=a,x)));
+
+\noindent
+\mbox{}func{\tt\_\kern.141em}h:=rhs(first(solve(mat{\tt\_\kern.141em}xx(2,2)=c,z)));
+
+\noindent
+\mbox{}func{\tt\_\kern.141em}g:=sub({\tt\char'173}x=func{\tt\_\kern.141em}f,z=func{\tt\_\kern.141em}h{\tt\char'175},mat{\tt\_\kern.141em}xx(1,2)){\tt -}b;
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}\rm\mc {\tt\%}\kern1\charwd  {}We define a function $\,g_1(w)\,$ by
+ $$
+ g_1(w)=g(y)\;{\sqrt{a-y^2}-\sqrt{c-y^2}\over y}\;\Bigg|_{y=1/w}
+	=-b\sqrt{aw^2-1}+b\sqrt{cw^2-1}+a-c \leqno(4)
+ $$ \rm\mc 
+
+\noindent
+\mbox{}{\tt\%}
+
+\noindent
+\mbox{}\tt\mc \hfill
+
+\noindent
+\mbox{}func{\tt\_\kern.141em}g1:=sub(y=1{\tt /}w,func{\tt\_\kern.141em}g{\tt *}(sqrt(a{\tt -}y{\tt\char'136}2){\tt -}sqrt(c{\tt -}y{\tt\char'136}2)){\tt /}y);
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}\rm\mc {\tt\%}\kern1\charwd  {}We put
+ $$
+ g_2(v)
+	=g_1(w)\Big|_{w=\sqrt{(v^2+1)/a}}
+	=b\sqrt{-a+cv^2+c\over a}-bv+a-c \leqno(5)
+ $$ \rm\mc 
+
+\noindent
+\mbox{}{\tt\%}
+
+\noindent
+\mbox{}\tt\mc \hfill
+
+\noindent
+\mbox{}func{\tt\_\kern.141em}g2:=sub(w=sqrt((v{\tt\char'136}2+1){\tt /}a),func{\tt\_\kern.141em}g1);
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}\rm\mc {\tt\%}\kern1\charwd  {}Since
+ $$
+ \eqalign{
+ g_2(v)&=0\cr
+ g_2(v)+bv-a+c&=bv-a+c\cr
+ (g_2(v)+bv-a+c)^2&=(bv-a+c)^2\cr
+ {b^2\over a\ }\;(-a+cv^2+c)&=(bv-a+c)^2\cr
+ }
+ $$
+ we put
+ $$
+ g_3(v)={b^2\over a\ }\;(-a+cv^2+c)-(bv-a+c)^2 \leqno(6)
+ $$
+ We can solve the equation $\,g_3(v)=0\,$ and get two solutions
+ $$
+ v_1={a+\sqrt{ac-b^2}\over b}\ ,\quad v_2={a-\sqrt{ac-b^2}\over b}
+ $$
+ Here we note that since
+ $$
+ g_2(v_2)=\sqrt{-2c\sqrt{ac-b^2}+ac-b^2+c^2}+\sqrt{ac-b^2}-c
+ $$
+ $\,g_2(v_2)\,$ is not always equal to 0. So, we can reject $\,v_2\,$. \rm\mc 
+
+\noindent
+\mbox{}{\tt\%}
+
+\noindent
+\mbox{}\tt\mc \hfill
+
+\noindent
+\mbox{}func{\tt\_\kern.141em}g3:=(func{\tt\_\kern.141em}g2+b{\tt *}v{\tt -}a+c){\tt\char'136}2{\tt -}(b{\tt *}v{\tt -}a+c){\tt\char'136}2;
+
+\noindent
+\mbox{}solutions:=solve(func{\tt\_\kern.141em}g3,v);
+
+\noindent
+\mbox{}v1:=rhs(first(solutions));
+
+\noindent
+\mbox{}v2:=rhs(second(solutions));
+
+\noindent
+\mbox{}sub(v=v1,func{\tt\_\kern.141em}g2);
+
+\noindent
+\mbox{}sub(v=v2,func{\tt\_\kern.141em}g2);
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}\rm\mc {\tt\%}\kern1\charwd  {}Since
+ $$
+ y=\sqrt{a\over v^2+1}
+ $$
+ we have
+ $$
+ y_1={b\over \sqrt{2\sqrt{ac-b^2}+a+c}}
+ $$ \rm\mc 
+
+\noindent
+\mbox{}{\tt\%}
+
+\noindent
+\mbox{}\tt\mc \hfill
+
+\noindent
+\mbox{}y1:=sqrt(a{\tt /}(v1{\tt\char'136}2+1));
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}\rm\mc {\tt\%}\kern1\charwd  {}Hence, we obtain
+ $$
+ x_1=f(y_1)\ ,\quad z_1=h(y_1)
+ $$
+ this gives
+ $$
+ X_1
+ =\pmatrix{x_1 & y_1 \cr
+	y_1 & z_1 \cr}
+ ={1\over d_1}\pmatrix{ \sqrt{ac-b^2}+a & b \cr
+	b & \sqrt{ac-b^2}+c \cr}
+ $$
+ where $\,d_1=\sqrt{2\sqrt{ac-b^2}+a+c}\,$.
+ Direct computation shows $\,X_1^2=A\,$. \rm\mc 
+
+\noindent
+\mbox{}{\tt\%}
+
+\noindent
+\mbox{}\tt\mc \hfill
+
+\noindent
+\mbox{}x1:=sub(y=y1,func{\tt\_\kern.141em}f);
+
+\noindent
+\mbox{}z1:=sub(y=y1,func{\tt\_\kern.141em}h);
+
+\noindent
+\mbox{}mat{\tt\_\kern.141em}x1:=mat((x1,y1),(y1,z1));
+
+\noindent
+\mbox{}d1:=sqrt(2{\tt *}sqrt(a{\tt *}c{\tt\mc \kern1\charwd}{\tt -}{\tt\mc \kern1\charwd}b{\tt *}{\tt *}2){\tt\mc \kern1\charwd}+{\tt\mc \kern1\charwd}a{\tt\mc \kern1\charwd}+{\tt\mc \kern1\charwd}c);
+
+\noindent
+\mbox{}d1{\tt *}mat{\tt\_\kern.141em}x1;
+
+\noindent
+\mbox{}mat{\tt\_\kern.141em}x1{\tt *}mat{\tt\_\kern.141em}x1;
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}e\kern-.445em e\kern-.055em n\kern-.46em n\kern-.04em d\kern-.455em d\kern-.045em ;
+
+\noindent
+\mbox{}
+
+\rm\mc
+
+\end{document}

@@ -1,0 +1,315 @@
+\documentclass{article}
+\usepackage{iftex}
+\ifXeTeX
+  \usepackage{fontspec}
+  \usepackage{xeCJK}
+  \usepackage[haranoaji]{zxjafont}
+  \XeTeXlinebreaklocale ""
+\fi
+\ifLuaTeX
+  \usepackage[haranoaji]{luatexja-preset}
+\fi
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage{graphicx}
+\newdimen\charwd
+{\tt\global\setbox0=\hbox{x}\global\charwd=\wd0}
+\frenchspacing
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhf{}
+\fancyhead[R]{\rm src2tex-go version 2.23}
+% plain TeX compatibility
+\makeatletter
+\providecommand{\eqalign}[1]{\vcenter{\openup1\jot\m@th
+  \ialign{\strut\hfil$\displaystyle{##}$&$\displaystyle{{}##}$\hfil\crcr#1\crcr}}}
+\makeatother
+\fancyfoot[R]{\rm\hfill samples{\tt /}popgen.red\qquad page \thepage}
+\begin{document}
+
+\ifx\sevenrm\undefined
+  \font\sevenrm=cmr7 scaled \magstep0
+\fi
+
+\newread\MyStyle
+\openin\MyStyle=src2latex.s2t
+\ifeof\MyStyle
+  \closein\MyStyle
+\else
+  \input src2latex.s2t
+  \closein\MyStyle
+\fi
+
+\def\mc{\relax}
+\def\gt{\relax}
+\def\sc{\scshape}
+
+\tt\mc 
+
+\noindent
+\rm\mc {\tt\%}\kern1\charwd  \bf popgen.red \rm\mc 
+
+\noindent
+\mbox{}{\tt\%}\kern1\charwd  \null
+ We shall solve the equation
+ $$
+ \eqalign{
+ {\partial u\over\partial t}
+	&=a(x){\partial^2 u\over\partial x^2}
+	+b(x){\partial u\over\partial x}
+	+c(x) u\cr
+	&={x(1-x)\over 2}{\partial^2 u\over\partial x^2}
+	+b(x){\partial u\over\partial x}
+	+c(x) u\cr
+ }
+ $$
+ by using numerical-symbolic hybrid method established by K. Amano.
+ This equation plays an important role in population genetics.
+  \rm\mc 
+
+\noindent
+\mbox{}\tt\mc \hfill
+
+\noindent
+\mbox{}\rm\mc {\tt\%}\kern1\charwd coefficients
+
+\noindent
+\mbox{}\tt\mc p\kern-.455em p\kern-.045em r\kern-.455em r\kern-.045em o\kern-.455em o\kern-.045em c\kern-.455em c\kern-.045em e\kern-.445em e\kern-.055em d\kern-.455em d\kern-.045em u\kern-.46em u\kern-.04em r\kern-.455em r\kern-.045em e\kern-.445em e\kern-.055em {\tt\mc \kern1\charwd}sqrt{\tt\_\kern.141em}a(x);
+
+\noindent
+\mbox{}{\tt\mc \kern3\charwd}sqrt(x{\tt *}(1{\tt -}x){\tt /}2);
+
+\noindent
+\mbox{}p\kern-.455em p\kern-.045em r\kern-.455em r\kern-.045em o\kern-.455em o\kern-.045em c\kern-.455em c\kern-.045em e\kern-.445em e\kern-.055em d\kern-.455em d\kern-.045em u\kern-.46em u\kern-.04em r\kern-.455em r\kern-.045em e\kern-.445em e\kern-.055em {\tt\mc \kern1\charwd}b(x);
+
+\noindent
+\mbox{}{\tt\mc \kern3\charwd}1{\tt /}2{\tt -}x;
+
+\noindent
+\mbox{}p\kern-.455em p\kern-.045em r\kern-.455em r\kern-.045em o\kern-.455em o\kern-.045em c\kern-.455em c\kern-.045em e\kern-.445em e\kern-.055em d\kern-.455em d\kern-.045em u\kern-.46em u\kern-.04em r\kern-.455em r\kern-.045em e\kern-.445em e\kern-.055em {\tt\mc \kern1\charwd}c(x);
+
+\noindent
+\mbox{}{\tt\mc \kern3\charwd}0;
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}\rm\mc {\tt\%}\kern1\charwd domain
+
+\noindent
+\mbox{}{\tt\%}\kern1\charwd  \null
+ $$
+ {\tt domain\_p(t,x)}=\cases{
+	1 &if $(t,x)$ belongs to the domain\cr
+	\cr
+	0 &otherwise\cr
+ }
+ $$
+  \rm\mc 
+
+\noindent
+\mbox{}\tt\mc p\kern-.455em p\kern-.045em r\kern-.455em r\kern-.045em o\kern-.455em o\kern-.045em c\kern-.455em c\kern-.045em e\kern-.445em e\kern-.055em d\kern-.455em d\kern-.045em u\kern-.46em u\kern-.04em r\kern-.455em r\kern-.045em e\kern-.445em e\kern-.055em {\tt\mc \kern1\charwd}domain{\tt\_\kern.141em}p(t,x);
+
+\noindent
+\mbox{}b\kern-.455em b\kern-.045em e\kern-.445em e\kern-.055em g\kern-.455em g\kern-.045em i\kern-.455em i\kern-.045em n\kern-.46em n\kern-.04em ;
+
+\noindent
+\mbox{}{\tt\mc \kern3\charwd}on{\tt\mc \kern1\charwd}rounded;
+
+\noindent
+\mbox{}{\tt\mc \kern3\charwd}i\kern-.455em i\kern-.045em f\kern-.455em f\kern-.045em {\tt\mc \kern1\charwd}t{\tt\mc \kern1\charwd}{\tt <}{\tt\mc \kern1\charwd}0{\tt\mc \kern1\charwd}o\kern-.455em o\kern-.045em r\kern-.455em r\kern-.045em {\tt\mc \kern1\charwd}x{\tt\mc \kern1\charwd}{\tt <}{\tt\mc \kern1\charwd}0{\tt\mc \kern1\charwd}o\kern-.455em o\kern-.045em r\kern-.455em r\kern-.045em {\tt\mc \kern1\charwd}x{\tt\mc \kern1\charwd}{\tt >}{\tt\mc \kern1\charwd}1{\tt\mc \kern1\charwd}t\kern-.445em t\kern-.055em h\kern-.455em h\kern-.045em e\kern-.445em e\kern-.055em n\kern-.46em n\kern-.04em 
+
+\noindent
+\mbox{}{\tt\mc \kern3\charwd}{\tt <}{\tt <}
+
+\noindent
+\mbox{}{\tt\mc \kern6\charwd}off{\tt\mc \kern1\charwd}rounded;
+
+\noindent
+\mbox{}{\tt\mc \kern6\charwd}r\kern-.455em r\kern-.045em e\kern-.445em e\kern-.055em t\kern-.445em t\kern-.055em u\kern-.46em u\kern-.04em r\kern-.455em r\kern-.045em n\kern-.46em n\kern-.04em {\tt\mc \kern1\charwd}0
+
+\noindent
+\mbox{}{\tt\mc \kern3\charwd}{\tt >}{\tt >}
+
+\noindent
+\mbox{}{\tt\mc \kern3\charwd}e\kern-.445em e\kern-.055em l\kern-.455em l\kern-.045em s\kern-.455em s\kern-.045em e\kern-.445em e\kern-.055em 
+
+\noindent
+\mbox{}{\tt\mc \kern3\charwd}{\tt <}{\tt <}
+
+\noindent
+\mbox{}{\tt\mc \kern6\charwd}off{\tt\mc \kern1\charwd}rounded;
+
+\noindent
+\mbox{}{\tt\mc \kern6\charwd}r\kern-.455em r\kern-.045em e\kern-.445em e\kern-.055em t\kern-.445em t\kern-.055em u\kern-.46em u\kern-.04em r\kern-.455em r\kern-.045em n\kern-.46em n\kern-.04em {\tt\mc \kern1\charwd}1
+
+\noindent
+\mbox{}{\tt\mc \kern3\charwd}{\tt >}{\tt >}
+
+\noindent
+\mbox{}e\kern-.445em e\kern-.055em n\kern-.46em n\kern-.04em d\kern-.455em d\kern-.045em ;
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}\rm\mc {\tt\%}\kern1\charwd numerical{\tt -}symbolic\kern1\charwd hybrid\kern1\charwd method
+
+\noindent
+\mbox{}{\tt\%}\kern1\charwd  {}Key idea depends on the following formula:
+ $$
+ \eqalign{
+ u(t,x)
+ &={1\over6}\,u\bigl(t,x+\sqrt{a(x)}\,h\bigr)
+	+{1\over6}\,u\bigl(t,x-\sqrt{a(x)}\,h\bigr)\cr
+ &+{1\over3}\,u\bigl(t,x+b(x)h^2\bigr)
+	+{1\over3}\,u(t-h^2,x)
+	+{h^2\over3}\,c(x)u(t,x)
+	+O(h^4)\ .\cr
+ }
+ $$
+  \rm\mc 
+
+\noindent
+\mbox{}\tt\mc p\kern-.455em p\kern-.045em r\kern-.455em r\kern-.045em o\kern-.455em o\kern-.045em c\kern-.455em c\kern-.045em e\kern-.445em e\kern-.055em d\kern-.455em d\kern-.045em u\kern-.46em u\kern-.04em r\kern-.455em r\kern-.045em e\kern-.445em e\kern-.055em {\tt\mc \kern1\charwd}hybrid{\tt\_\kern.141em}method(t,{\tt\mc \kern1\charwd}x,{\tt\mc \kern1\charwd}n);
+
+\noindent
+\mbox{}b\kern-.455em b\kern-.045em e\kern-.445em e\kern-.055em g\kern-.455em g\kern-.045em i\kern-.455em i\kern-.045em n\kern-.46em n\kern-.04em ;
+
+\noindent
+\mbox{}{\tt\mc \kern3\charwd}list{\tt\_\kern.141em}in{\tt\mc \kern1\charwd}:={\tt\mc \kern1\charwd}{\tt\char'173}{\tt\char'173}1,{\tt\mc \kern1\charwd}t,{\tt\mc \kern1\charwd}x{\tt\char'175}{\tt\char'175};
+
+\noindent
+\mbox{}{\tt\mc \kern3\charwd}list{\tt\_\kern.141em}tmp{\tt\mc \kern1\charwd}:={\tt\mc \kern1\charwd}{\tt\char'173}{\tt\char'175};
+
+\noindent
+\mbox{}{\tt\mc \kern3\charwd}w\kern-.455em w\kern-.045em h\kern-.455em h\kern-.045em i\kern-.455em i\kern-.045em l\kern-.455em l\kern-.045em e\kern-.445em e\kern-.055em {\tt\mc \kern1\charwd}n{\tt\mc \kern1\charwd}{\tt >}{\tt\mc \kern1\charwd}0{\tt\mc \kern1\charwd}d\kern-.455em d\kern-.045em o\kern-.455em o\kern-.045em 
+
+\noindent
+\mbox{}{\tt\mc \kern3\charwd}{\tt <}{\tt <}
+
+\noindent
+\mbox{}{\tt\mc \kern6\charwd}w\kern-.455em w\kern-.045em h\kern-.455em h\kern-.045em i\kern-.455em i\kern-.045em l\kern-.455em l\kern-.045em e\kern-.445em e\kern-.055em {\tt\mc \kern1\charwd}length(list{\tt\_\kern.141em}in){\tt\mc \kern1\charwd}{\tt >}{\tt\mc \kern1\charwd}0{\tt\mc \kern1\charwd}d\kern-.455em d\kern-.045em o\kern-.455em o\kern-.045em 
+
+\noindent
+\mbox{}{\tt\mc \kern6\charwd}{\tt <}{\tt <}
+
+\noindent
+\mbox{}{\tt\mc \kern9\charwd}tmp{\tt\mc \kern1\charwd}:={\tt\mc \kern1\charwd}first(list{\tt\_\kern.141em}in);
+
+\noindent
+\mbox{}{\tt\mc \kern9\charwd}q{\tt\mc \kern1\charwd}:={\tt\mc \kern1\charwd}first(tmp);
+
+\noindent
+\mbox{}{\tt\mc \kern9\charwd}s{\tt\mc \kern1\charwd}:={\tt\mc \kern1\charwd}first(rest(tmp));
+
+\noindent
+\mbox{}{\tt\mc \kern9\charwd}y{\tt\mc \kern1\charwd}:={\tt\mc \kern1\charwd}first(rest(rest(tmp)));
+
+\noindent
+\mbox{}{\tt\mc \kern9\charwd}i\kern-.455em i\kern-.045em f\kern-.455em f\kern-.045em {\tt\mc \kern1\charwd}domain{\tt\_\kern.141em}p(s,{\tt\mc \kern1\charwd}y){\tt\mc \kern1\charwd}neq{\tt\mc \kern1\charwd}0{\tt\mc \kern1\charwd}t\kern-.445em t\kern-.055em h\kern-.455em h\kern-.045em e\kern-.445em e\kern-.055em n\kern-.46em n\kern-.04em 
+
+\noindent
+\mbox{}{\tt\mc \kern9\charwd}{\tt <}{\tt <}
+
+\noindent
+\mbox{}{\tt\mc \kern12\charwd}list{\tt\_\kern.141em}tmp{\tt\mc \kern1\charwd}:={\tt\mc \kern1\charwd}cons({\tt\char'173}q{\tt /}6,{\tt\mc \kern1\charwd}s,{\tt\mc \kern1\charwd}y+sqrt{\tt\_\kern.141em}a(y){\tt *}h{\tt\char'175},{\tt\mc \kern1\charwd}list{\tt\_\kern.141em}tmp);
+
+\noindent
+\mbox{}{\tt\mc \kern12\charwd}list{\tt\_\kern.141em}tmp{\tt\mc \kern1\charwd}:={\tt\mc \kern1\charwd}cons({\tt\char'173}q{\tt /}6,{\tt\mc \kern1\charwd}s,{\tt\mc \kern1\charwd}y{\tt -}sqrt{\tt\_\kern.141em}a(y){\tt *}h{\tt\char'175},{\tt\mc \kern1\charwd}list{\tt\_\kern.141em}tmp);
+
+\noindent
+\mbox{}{\tt\mc \kern12\charwd}list{\tt\_\kern.141em}tmp{\tt\mc \kern1\charwd}:={\tt\mc \kern1\charwd}cons({\tt\char'173}q{\tt /}3,{\tt\mc \kern1\charwd}s,{\tt\mc \kern1\charwd}y+b(y){\tt *}h{\tt *}{\tt *}2{\tt\char'175},{\tt\mc \kern1\charwd}list{\tt\_\kern.141em}tmp);
+
+\noindent
+\mbox{}{\tt\mc \kern12\charwd}list{\tt\_\kern.141em}tmp{\tt\mc \kern1\charwd}:={\tt\mc \kern1\charwd}cons({\tt\char'173}q{\tt /}3,{\tt\mc \kern1\charwd}s{\tt -}h{\tt *}{\tt *}2,{\tt\mc \kern1\charwd}y{\tt\char'175},{\tt\mc \kern1\charwd}list{\tt\_\kern.141em}tmp);
+
+\noindent
+\mbox{}{\tt\mc \kern12\charwd}list{\tt\_\kern.141em}tmp{\tt\mc \kern1\charwd}:={\tt\mc \kern1\charwd}cons({\tt\char'173}h{\tt *}{\tt *}2{\tt *}c(y){\tt /}3,{\tt\mc \kern1\charwd}s,{\tt\mc \kern1\charwd}y{\tt\char'175},{\tt\mc \kern1\charwd}list{\tt\_\kern.141em}tmp)
+
+\noindent
+\mbox{}{\tt\mc \kern9\charwd}{\tt >}{\tt >}
+
+\noindent
+\mbox{}{\tt\mc \kern9\charwd}e\kern-.445em e\kern-.055em l\kern-.455em l\kern-.045em s\kern-.455em s\kern-.045em e\kern-.445em e\kern-.055em 
+
+\noindent
+\mbox{}{\tt\mc \kern12\charwd}list{\tt\_\kern.141em}tmp{\tt\mc \kern1\charwd}:={\tt\mc \kern1\charwd}cons({\tt\char'173}q,{\tt\mc \kern1\charwd}s,{\tt\mc \kern1\charwd}y{\tt\char'175},{\tt\mc \kern1\charwd}list{\tt\_\kern.141em}tmp);
+
+\noindent
+\mbox{}{\tt\mc \kern9\charwd}list{\tt\_\kern.141em}in{\tt\mc \kern1\charwd}:={\tt\mc \kern1\charwd}rest(list{\tt\_\kern.141em}in)
+
+\noindent
+\mbox{}{\tt\mc \kern6\charwd}{\tt >}{\tt >};
+
+\noindent
+\mbox{}{\tt\mc \kern6\charwd}list{\tt\_\kern.141em}in{\tt\mc \kern1\charwd}:={\tt\mc \kern1\charwd}list{\tt\_\kern.141em}tmp;
+
+\noindent
+\mbox{}{\tt\mc \kern6\charwd}list{\tt\_\kern.141em}tmp{\tt\mc \kern1\charwd}:={\tt\mc \kern1\charwd}{\tt\char'173}{\tt\char'175};
+
+\noindent
+\mbox{}{\tt\mc \kern6\charwd}n{\tt\mc \kern1\charwd}:={\tt\mc \kern1\charwd}n{\tt -}1
+
+\noindent
+\mbox{}{\tt\mc \kern3\charwd}{\tt >}{\tt >};
+
+\noindent
+\mbox{}{\tt\mc \kern3\charwd}r\kern-.455em r\kern-.045em e\kern-.445em e\kern-.055em t\kern-.445em t\kern-.055em u\kern-.46em u\kern-.04em r\kern-.455em r\kern-.045em n\kern-.46em n\kern-.04em {\tt\mc \kern1\charwd}list{\tt\_\kern.141em}in
+
+\noindent
+\mbox{}e\kern-.445em e\kern-.055em n\kern-.46em n\kern-.04em d\kern-.455em d\kern-.045em ;
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}\rm\mc {\tt\%}\kern1\charwd main\kern1\charwd module
+
+\noindent
+\mbox{}\tt\mc h{\tt\mc \kern1\charwd}:={\tt\mc \kern1\charwd}0.1;
+
+\noindent
+\mbox{}hybrid{\tt\_\kern.141em}method(4,{\tt\mc \kern1\charwd}0.5,{\tt\mc \kern1\charwd}2);
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}e\kern-.445em e\kern-.055em n\kern-.46em n\kern-.04em d\kern-.455em d\kern-.045em ;
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}\rm\mc {\tt\%}\kern1\charwd Here\kern1\charwd we\kern1\charwd give\kern1\charwd a\kern1\charwd numerical\kern1\charwd example.
+
+\noindent
+\mbox{}{\tt\%}\kern1\charwd  \null
+ $$
+ \cases{
+ \displaystyle{\partial u\over\partial t}={1\over4N}
+ {\partial^2\over\partial x^2}\big(x(1-x)u\big)
+	\qquad (0<t\le 4N,\ 0<x<1)\cr
+ \cr
+u(0,x)\sim\delta(x-0.5)\cr
+ }
+ $$
+  \rm\mc 
+
+\noindent
+\mbox{}\tt\mc \hfill
+
+\noindent
+\mbox{}\rm\mc {\tt\%}\kern1\charwd  \includegraphics[scale=0.7]{solution} \rm\mc 
+
+\noindent
+\mbox{}\tt\mc \hfill
+
+\noindent
+\mbox{}
+
+\rm\mc
+
+\end{document}

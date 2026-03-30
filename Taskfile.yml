@@ -1,0 +1,271 @@
+# Taskfile.yml - src2tex-go build & sample conversion tasks
+# https://taskfile.dev
+#
+# Prerequisites:
+#   - Go 1.21+           : https://go.dev/dl/
+#   - Task (go-task)      : https://taskfile.dev/installation/
+#   - XeLaTeX, LuaLaTeX, or Tectonic : for PDF generation
+#   - Ghostscript (gs)    : for EPS→PDF auto-conversion (optional)
+
+version: '3'
+
+vars:
+  BIN_NAME: src2latex
+  BIN_EXT: '{{if eq OS "windows"}}.exe{{end}}'
+  BIN: '{{.BIN_NAME}}{{.BIN_EXT}}'
+  SAMPLES_DIR: samples
+
+tasks:
+  # ===========================================================================
+  # Build Tasks
+  # ===========================================================================
+
+  default:
+    desc: Build the application for the current platform
+    cmds:
+      - task: build
+
+  build:
+    desc: Build src2latex for the current platform
+    cmds:
+      - go build -o {{.BIN}}
+    sources:
+      - "*.go"
+      - go.mod
+      - go.sum
+    generates:
+      - "{{.BIN}}"
+
+  build:all:
+    desc: Cross-compile for all supported platforms
+    cmds:
+      - task: build:darwin-arm64
+      - task: build:darwin-amd64
+      - task: build:linux-amd64
+      - task: build:windows-amd64
+
+  build:darwin-arm64:
+    desc: Build for macOS (Apple Silicon)
+    env:
+      GOOS: darwin
+      GOARCH: arm64
+    cmds:
+      - go build -o {{.BIN_NAME}}-darwin-arm64
+    sources:
+      - "*.go"
+      - go.mod
+      - go.sum
+    generates:
+      - "{{.BIN_NAME}}-darwin-arm64"
+
+  build:darwin-amd64:
+    desc: Build for macOS (Intel)
+    env:
+      GOOS: darwin
+      GOARCH: amd64
+    cmds:
+      - go build -o {{.BIN_NAME}}-darwin-amd64
+    sources:
+      - "*.go"
+      - go.mod
+      - go.sum
+    generates:
+      - "{{.BIN_NAME}}-darwin-amd64"
+
+  build:linux-amd64:
+    desc: Build for Linux (amd64)
+    env:
+      GOOS: linux
+      GOARCH: amd64
+    cmds:
+      - go build -o {{.BIN_NAME}}-linux-amd64
+    sources:
+      - "*.go"
+      - go.mod
+      - go.sum
+    generates:
+      - "{{.BIN_NAME}}-linux-amd64"
+
+  build:windows-amd64:
+    desc: Build for Windows (amd64)
+    env:
+      GOOS: windows
+      GOARCH: amd64
+    cmds:
+      - go build -o {{.BIN_NAME}}-win-amd64.exe
+    sources:
+      - "*.go"
+      - go.mod
+      - go.sum
+    generates:
+      - "{{.BIN_NAME}}-win-amd64.exe"
+
+  # ===========================================================================
+  # Sample Conversion Tasks (new mode)
+  # ===========================================================================
+
+  samples:
+    desc: Convert all sample source files to TeX (Unicode mode)
+    cmds:
+      - task: samples:utf8
+      - task: samples:eucjp
+      - task: samples:ascii
+
+  samples:utf8:
+    desc: Convert UTF-8 sample files to TeX
+    deps: [build]
+    vars:
+      SRC2TEX: '{{if eq OS "windows"}}{{.BIN_NAME}}-win-amd64.exe{{else}}./{{.BIN}}{{end}}'
+    cmds:
+      - '{{.SRC2TEX}} -unicode -utf8 -font hackgen {{.SAMPLES_DIR}}/hanoi.c'
+      - '{{.SRC2TEX}} -unicode -utf8 -font hackgen {{.SAMPLES_DIR}}/hanoi.go'
+      - '{{.SRC2TEX}} -unicode -utf8 -font hackgen {{.SAMPLES_DIR}}/hanoi.py'
+      - '{{.SRC2TEX}} -unicode -utf8 -font hackgen {{.SAMPLES_DIR}}/hanoi.rb'
+      - '{{.SRC2TEX}} -unicode -utf8 -font hackgen {{.SAMPLES_DIR}}/hanoi.rs'
+      - '{{.SRC2TEX}} -unicode -utf8 -font hackgen {{.SAMPLES_DIR}}/hanoi.js'
+      - '{{.SRC2TEX}} -unicode -utf8 -font hackgen {{.SAMPLES_DIR}}/hanoi.ts'
+      - '{{.SRC2TEX}} -unicode -utf8 -font hackgen {{.SAMPLES_DIR}}/hanoi.kt'
+      - '{{.SRC2TEX}} -unicode -utf8 -font hackgen {{.SAMPLES_DIR}}/hanoi.swift'
+      - '{{.SRC2TEX}} -unicode -utf8 -font hackgen {{.SAMPLES_DIR}}/hanoi.pas'
+      - '{{.SRC2TEX}} -unicode -utf8 -font hackgen {{.SAMPLES_DIR}}/hanoi.pl'
+      - '{{.SRC2TEX}} -unicode -utf8 -font hackgen {{.SAMPLES_DIR}}/hanoi.sh'
+
+  samples:eucjp:
+    desc: Convert EUC-JP sample files to TeX
+    deps: [build]
+    vars:
+      SRC2TEX: '{{if eq OS "windows"}}{{.BIN_NAME}}-win-amd64.exe{{else}}./{{.BIN}}{{end}}'
+    cmds:
+      - '{{.SRC2TEX}} -unicode -euc -font hackgen {{.SAMPLES_DIR}}/newton.c'
+      - '{{.SRC2TEX}} -unicode -euc -font hackgen {{.SAMPLES_DIR}}/simpson.c'
+      - '{{.SRC2TEX}} -unicode -euc -font hackgen {{.SAMPLES_DIR}}/farmer+hen.scm'
+
+  samples:ascii:
+    desc: Convert ASCII sample files to TeX
+    deps: [build]
+    vars:
+      SRC2TEX: '{{if eq OS "windows"}}{{.BIN_NAME}}-win-amd64.exe{{else}}./{{.BIN}}{{end}}'
+    cmds:
+      - '{{.SRC2TEX}} -unicode -font hackgen {{.SAMPLES_DIR}}/popgen.red'
+      - '{{.SRC2TEX}} -unicode -font hackgen {{.SAMPLES_DIR}}/sqrt_mat.red'
+
+
+  # ===========================================================================
+  # Sample Conversion Tasks (legacy mode)
+  # ===========================================================================
+
+  samples-legacy:
+    desc: Convert all sample source files to TeX (Unicode mode)
+    cmds:
+      - task: samples-legacy:utf8
+      - task: samples-legacy:eucjp
+      - task: samples-legacy:ascii
+
+  samples-legacy:utf8:
+    desc: Convert UTF-8 sample files to TeX
+    deps: [build]
+    vars:
+      SRC2TEX: '{{if eq OS "windows"}}{{.BIN_NAME}}-win-amd64.exe{{else}}./{{.BIN}}{{end}}'
+    cmds:
+      - '{{.SRC2TEX}} -unicode -utf8 {{.SAMPLES_DIR}}/hanoi.c'
+      - '{{.SRC2TEX}} -unicode -utf8 {{.SAMPLES_DIR}}/hanoi.go'
+      - '{{.SRC2TEX}} -unicode -utf8 {{.SAMPLES_DIR}}/hanoi.py'
+      - '{{.SRC2TEX}} -unicode -utf8 {{.SAMPLES_DIR}}/hanoi.rb'
+      - '{{.SRC2TEX}} -unicode -utf8 {{.SAMPLES_DIR}}/hanoi.rs'
+      - '{{.SRC2TEX}} -unicode -utf8 {{.SAMPLES_DIR}}/hanoi.js'
+      - '{{.SRC2TEX}} -unicode -utf8 {{.SAMPLES_DIR}}/hanoi.ts'
+      - '{{.SRC2TEX}} -unicode -utf8 {{.SAMPLES_DIR}}/hanoi.kt'
+      - '{{.SRC2TEX}} -unicode -utf8 {{.SAMPLES_DIR}}/hanoi.swift'
+      - '{{.SRC2TEX}} -unicode -utf8 {{.SAMPLES_DIR}}/hanoi.pas'
+      - '{{.SRC2TEX}} -unicode -utf8 {{.SAMPLES_DIR}}/hanoi.pl'
+      - '{{.SRC2TEX}} -unicode -utf8 {{.SAMPLES_DIR}}/hanoi.sh'
+
+  samples-legacy:eucjp:
+    desc: Convert EUC-JP sample files to TeX
+    deps: [build]
+    vars:
+      SRC2TEX: '{{if eq OS "windows"}}{{.BIN_NAME}}-win-amd64.exe{{else}}./{{.BIN}}{{end}}'
+    cmds:
+      - '{{.SRC2TEX}} -unicode -euc {{.SAMPLES_DIR}}/newton.c'
+      - '{{.SRC2TEX}} -unicode -euc {{.SAMPLES_DIR}}/simpson.c'
+      - '{{.SRC2TEX}} -unicode -euc {{.SAMPLES_DIR}}/farmer+hen.scm'
+
+  samples-legacy:ascii:
+    desc: Convert ASCII sample files to TeX
+    deps: [build]
+    vars:
+      SRC2TEX: '{{if eq OS "windows"}}{{.BIN_NAME}}-win-amd64.exe{{else}}./{{.BIN}}{{end}}'
+    cmds:
+      - '{{.SRC2TEX}} -unicode {{.SAMPLES_DIR}}/popgen.red'
+      - '{{.SRC2TEX}} -unicode {{.SAMPLES_DIR}}/sqrt_mat.red'
+
+  # ===========================================================================
+  # PDF Generation Tasks
+  # ===========================================================================
+
+  pdf:
+    desc: Generate PDFs from all converted sample TeX files (requires xelatex or tectonic)
+    deps: [samples]
+    cmds:
+      - task: pdf:compile
+
+  pdf:compile:
+    desc: Compile all TeX files in the samples directory to PDF
+    dir: '{{.SAMPLES_DIR}}'
+    vars:
+      TEX_ENGINE: '{{.TEX_ENGINE | default "xelatex"}}'
+      TEX_OPTS: '{{if eq .TEX_ENGINE "tectonic"}}{{else}}-interaction=nonstopmode {{end}}'
+    cmds:
+      - |
+        for f in *.tex; do
+          [ -f "$f" ] || continue
+          echo "==> Compiling $f ..."
+          {{.TEX_ENGINE}} {{.TEX_OPTS}}"$f"
+        done
+
+  # ===========================================================================
+  # Utility Tasks
+  # ===========================================================================
+
+  clean:
+    desc: Remove build artifacts and generated files
+    cmds:
+      - rm -f {{.BIN_NAME}} {{.BIN_NAME}}.exe
+      - rm -f {{.BIN_NAME}}-darwin-arm64 {{.BIN_NAME}}-darwin-amd64
+      - rm -f {{.BIN_NAME}}-linux-amd64
+      - rm -f {{.BIN_NAME}}-win-amd64.exe
+      # Also clean legacy binary name
+      - rm -f src2latexg src2latexg.exe
+
+  clean:samples-dev:
+    desc: Remove generated TeX and PDF files from samples directory
+    cmds:
+      - rm -f {{.SAMPLES_DIR}}/*.aux
+      - rm -f {{.SAMPLES_DIR}}/*.log
+
+  clean:samples:
+    desc: Remove generated TeX and PDF files from samples directory
+    cmds:
+      - rm -f {{.SAMPLES_DIR}}/*.tex
+      - rm -f {{.SAMPLES_DIR}}/*.pdf
+      - rm -f {{.SAMPLES_DIR}}/*.aux
+      - rm -f {{.SAMPLES_DIR}}/*.log
+
+  clean:all:
+    desc: Remove all generated files (binaries + samples)
+    cmds:
+      - task: clean
+      - task: clean:samples
+
+  test:
+    desc: Run Go tests
+    cmds:
+      - go test ./...
+
+  version:
+    desc: Show src2tex-go version
+    deps: [build]
+    vars:
+      SRC2TEX: '{{if eq OS "windows"}}{{.BIN_NAME}}-win-amd64.exe{{else}}./{{.BIN}}{{end}}'
+    cmds:
+      - '{{.SRC2TEX}} -v'

@@ -1,0 +1,326 @@
+\documentclass{article}
+\usepackage{iftex}
+\ifXeTeX
+  \usepackage{fontspec}
+  \usepackage{xeCJK}
+  \setmonofont[Path=/Users/yupyom/.src2tex/fonts/hackgen/, BoldFont=HackGen-Bold.ttf]{HackGen-Regular.ttf}
+  \setCJKmonofont[Path=/Users/yupyom/.src2tex/fonts/hackgen/, BoldFont=HackGen-Bold.ttf]{HackGen-Regular.ttf}
+  \setCJKmainfont[Path=/usr/local/texlive/2026/texmf-dist/fonts/opentype/public/haranoaji/, Extension=.otf, BoldFont=HaranoAjiMincho-Bold.otf]{HaranoAjiMincho-Regular}
+  \XeTeXlinebreaklocale ""
+  \xeCJKsetup{CJKglue={},CJKecglue={}}
+\fi
+\ifLuaTeX
+  \usepackage{luatexja-fontspec}
+  \setmonofont[Path=/Users/yupyom/.src2tex/fonts/hackgen/, BoldFont=HackGen-Bold.ttf]{HackGen-Regular.ttf}
+  \setmainjfont{HaranoAjiMincho-Regular.otf}
+  \ltjsetparameter{kanjiskip=0pt, xkanjiskip=0pt}
+\fi
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage{graphicx}
+\newdimen\charwd
+{\tt\global\setbox0=\hbox{x}\global\charwd=\wd0}
+\frenchspacing
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhf{}
+\fancyhead[R]{\rm src2tex-go version 2.23}
+% plain TeX compatibility
+\makeatletter
+\providecommand{\eqalign}[1]{\vcenter{\openup1\jot\m@th
+  \ialign{\strut\hfil$\displaystyle{##}$&$\displaystyle{{}##}$\hfil\crcr#1\crcr}}}
+\makeatother
+\fancyfoot[R]{\rm\hfill samples{\tt /}hanoi.sh\qquad page \thepage}
+\begin{document}
+
+\ifx\sevenrm\undefined
+  \font\sevenrm=cmr7 scaled \magstep0
+\fi
+
+\newread\MyStyle
+\openin\MyStyle=src2latex.s2t
+\ifeof\MyStyle
+  \closein\MyStyle
+\else
+  \input src2latex.s2t
+  \closein\MyStyle
+\fi
+
+\def\mc{\relax}
+\def\gt{\relax}
+\def\sc{\scshape}
+
+\tt\mc 
+
+\noindent
+\rm\mc {\tt\#}!{\tt /}bin{\tt /}sh
+
+\noindent
+\mbox{}{\tt\#}\  \hrulefill  \rm\mc 
+
+\noindent
+\mbox{}{\tt\#}
+\tt\mc 
+
+\noindent
+\mbox{}\rm\mc {\tt\#}\  {}% beginning of TeX mode  \rm\mc 
+
+\noindent
+\mbox{}{\tt\#}
+\tt\mc 
+
+\noindent
+\mbox{}\rm\mc {\tt\#}\  {}\centerline{\bf Towers of Hanoi (Shell)}  \rm\mc 
+
+\noindent
+\mbox{}{\tt\#}
+\tt\mc 
+
+\noindent
+\mbox{}\rm\mc {\tt\#}\  {}  \rm\mc 
+
+\noindent
+\mbox{}{\tt\#}\  {}\hspace{\leftmargini}\noindent  \rm\mc 
+
+\noindent
+\mbox{}{\tt\#}\  {}\hspace{\leftmargini}This program gives an answer to the following famous problem (towers of  \rm\mc 
+
+\noindent
+\mbox{}{\tt\#}\  {}\hspace{\leftmargini}Hanoi).  \rm\mc 
+
+\noindent
+\mbox{}{\tt\#}\  {}\hspace{\leftmargini}There is a legend that when one of the temples in Hanoi was constructed,  \rm\mc 
+
+\noindent
+\mbox{}{\tt\#}\  {}\hspace{\leftmargini}three poles were erected and a tower consisting of 64 golden discs was  \rm\mc 
+
+\noindent
+\mbox{}{\tt\#}\  {}\hspace{\leftmargini}arranged on one pole, their sizes decreasing regularly from bottom to top.  \rm\mc 
+
+\noindent
+\mbox{}{\tt\#}\  {}\hspace{\leftmargini}The monks were to move the tower of discs to the opposite pole, moving  \rm\mc 
+
+\noindent
+\mbox{}{\tt\#}\  {}\hspace{\leftmargini}only one at a time, and never putting any size disc above a smaller one.  \rm\mc 
+
+\noindent
+\mbox{}{\tt\#}\  {}\hspace{\leftmargini}The job was to be done in the minimum numbers of moves. What strategy for  \rm\mc 
+
+\noindent
+\mbox{}{\tt\#}\  {}\hspace{\leftmargini}moving discs will accomplish this optimum transfer?  \rm\mc 
+
+\noindent
+\mbox{}{\tt\#}\  {}  \rm\mc 
+
+\noindent
+\mbox{}{\tt\#}
+\tt\mc 
+
+\noindent
+\mbox{}\rm\mc {\tt\#}\  {}% end of TeX mode  \rm\mc 
+
+\noindent
+\mbox{}{\tt\#}
+\tt\mc 
+
+\noindent
+\mbox{}\rm\mc {\tt\#}\  \hrulefill  \rm\mc 
+
+\noindent
+\mbox{}\tt\mc \hfill
+
+\noindent
+\mbox{}\rm\mc {\tt\#}\  \hrulefill\ hanoi.sh \ \hrulefill \rm\mc 
+
+\noindent
+\mbox{}\tt\mc \hfill
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}ARRAY=8{\tt\mc \ \ \ \ \ \ \ \ \ }\rm\mc {\tt\#}\ disc\ count
+
+\noindent
+\mbox{}\tt\mc counter=0{\tt\mc \ \ \ \ \ \ \ }\rm\mc {\tt\#}\ move\ counter
+
+\noindent
+\mbox{}\tt\mc \hfill
+
+\noindent
+\mbox{}\rm\mc {\tt\#}\ initialize\ disc\ data
+
+\noindent
+\mbox{}\tt\mc init{\tt\_}array(){\tt\mc \ }{\tt\char'173}
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }for{\tt\mc \ }j{\tt\mc \ }in{\tt\mc \ }{\tt\$}(seq{\tt\mc \ }0{\tt\mc \ }{\tt\$}((ARRAY{\tt\mc \ }{\tt -}{\tt\mc \ }1)));{\tt\mc \ }do
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ \ \ \ \ }eval{\tt\mc \ }{\tt "}disc{\tt\_}0{\tt\_}{\tt\$}j={\tt\$}((ARRAY{\tt\mc \ }{\tt -}{\tt\mc \ }j)){\tt "}
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ \ \ \ \ }eval{\tt\mc \ }{\tt "}disc{\tt\_}1{\tt\_}{\tt\$}j=0{\tt "}
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ \ \ \ \ }eval{\tt\mc \ }{\tt "}disc{\tt\_}2{\tt\_}{\tt\$}j=0{\tt "}
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }done
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }ptr{\tt\_}0={\tt\$}ARRAY
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }ptr{\tt\_}1=0
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }ptr{\tt\_}2=0
+
+\noindent
+\mbox{}{\tt\char'175}
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}\rm\mc {\tt\#}\ print\ current\ state
+
+\noindent
+\mbox{}\tt\mc print{\tt\_}result(){\tt\mc \ }{\tt\char'173}
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }counter={\tt\$}((counter{\tt\mc \ }+{\tt\mc \ }1))
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }echo{\tt\mc \ }{\tt "}{\tt -}{\tt -}{\tt -}{\tt\$}{\tt\char'173}counter{\tt\char'175}{\tt -}{\tt -}{\tt -}{\tt "}
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }for{\tt\mc \ }i{\tt\mc \ }in{\tt\mc \ }0{\tt\mc \ }1{\tt\mc \ }2;{\tt\mc \ }do
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ \ \ \ \ }printf{\tt\mc \ }{\tt "}[{\tt\%}d]{\tt\mc \ }{\tt "}{\tt\mc \ }{\tt "}{\tt\$}i{\tt "}
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ \ \ \ \ }for{\tt\mc \ }j{\tt\mc \ }in{\tt\mc \ }{\tt\$}(seq{\tt\mc \ }0{\tt\mc \ }{\tt\$}((ARRAY{\tt\mc \ }{\tt -}{\tt\mc \ }1)));{\tt\mc \ }do
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ \ \ \ \ \ \ \ \ }eval{\tt\mc \ }{\tt "}val={\tt\char92}{\tt\$}disc{\tt\_}{\tt\$}{\tt\char'173}i{\tt\char'175}{\tt\_}{\tt\$}{\tt\char'173}j{\tt\char'175}{\tt "}
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ \ \ \ \ \ \ \ \ }if{\tt\mc \ }[{\tt\mc \ }{\tt "}{\tt\$}val{\tt "}{\tt\mc \ }{\tt -}ne{\tt\mc \ }0{\tt\mc \ }];{\tt\mc \ }then
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }printf{\tt\mc \ }{\tt "}{\tt\%}d{\tt\mc \ }{\tt "}{\tt\mc \ }{\tt "}{\tt\$}val{\tt "}
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ \ \ \ \ \ \ \ \ }else
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }break
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ \ \ \ \ \ \ \ \ }fi
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ \ \ \ \ }done
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ \ \ \ \ }echo
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }done
+
+\noindent
+\mbox{}{\tt\char'175}
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}\rm\mc {\tt\#}\ move\ 1\ disc:\ pole\ i\ to\ pole\ j
+
+\noindent
+\mbox{}\tt\mc move{\tt\_}one{\tt\_}disc(){\tt\mc \ }{\tt\char'173}
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }i={\tt\$}1;{\tt\mc \ }j={\tt\$}2
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }eval{\tt\mc \ }{\tt "}ptr{\tt\_}i={\tt\char92}{\tt\$}ptr{\tt\_}{\tt\$}i{\tt "}
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }ptr{\tt\_}i={\tt\$}((ptr{\tt\_}i{\tt\mc \ }{\tt -}{\tt\mc \ }1))
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }eval{\tt\mc \ }{\tt "}ptr{\tt\_}{\tt\$}i={\tt\$}ptr{\tt\_}i{\tt "}
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }eval{\tt\mc \ }{\tt "}ptr{\tt\_}j={\tt\char92}{\tt\$}ptr{\tt\_}{\tt\$}j{\tt "}
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }eval{\tt\mc \ }{\tt "}disc{\tt\_}{\tt\$}{\tt\char'173}j{\tt\char'175}{\tt\_}{\tt\$}{\tt\char'173}ptr{\tt\_}j{\tt\char'175}={\tt\char92}{\tt\$}disc{\tt\_}{\tt\$}{\tt\char'173}i{\tt\char'175}{\tt\_}{\tt\$}{\tt\char'173}ptr{\tt\_}i{\tt\char'175}{\tt "}
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }ptr{\tt\_}j={\tt\$}((ptr{\tt\_}j{\tt\mc \ }+{\tt\mc \ }1))
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }eval{\tt\mc \ }{\tt "}ptr{\tt\_}{\tt\$}j={\tt\$}ptr{\tt\_}j{\tt "}
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }eval{\tt\mc \ }{\tt "}disc{\tt\_}{\tt\$}{\tt\char'173}i{\tt\char'175}{\tt\_}{\tt\$}{\tt\char'173}ptr{\tt\_}i{\tt\char'175}=0{\tt "}
+
+\noindent
+\mbox{}{\tt\char'175}
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}\rm\mc {\tt\#}\ move\ n\ discs
+
+\noindent
+\mbox{}\tt\mc move{\tt\_}discs(){\tt\mc \ }{\tt\char'173}
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }n={\tt\$}1;{\tt\mc \ }i={\tt\$}2;{\tt\mc \ }j={\tt\$}3;{\tt\mc \ }k={\tt\$}4{\tt\mc \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\rm\mc {\tt\#}\ pole\ i\ to\ pole\ j
+
+\noindent
+\mbox{}\tt\mc {\tt\mc \ \ \ \ }if{\tt\mc \ }[{\tt\mc \ }{\tt "}{\tt\$}n{\tt "}{\tt\mc \ }{\tt -}ge{\tt\mc \ }1{\tt\mc \ }];{\tt\mc \ }then{\tt\mc \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\rm\mc {\tt\#}\ via\ pole\ k
+
+\noindent
+\mbox{}\tt\mc {\tt\mc \ \ \ \ \ \ \ \ }move{\tt\_}discs{\tt\mc \ }{\tt\$}((n{\tt\mc \ }{\tt -}{\tt\mc \ }1)){\tt\mc \ }{\tt "}{\tt\$}i{\tt "}{\tt\mc \ }{\tt "}{\tt\$}k{\tt "}{\tt\mc \ }{\tt "}{\tt\$}j{\tt "}
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ \ \ \ \ }move{\tt\_}one{\tt\_}disc{\tt\mc \ }{\tt "}{\tt\$}i{\tt "}{\tt\mc \ }{\tt "}{\tt\$}j{\tt "}{\tt\mc \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\rm\mc {\tt\#}\ move{\tt\_}discs()
+
+\noindent
+\mbox{}\tt\mc {\tt\mc \ \ \ \ \ \ \ \ }print{\tt\_}result{\tt\mc \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\rm\mc {\tt\#}\ print\ result
+
+\noindent
+\mbox{}\tt\mc {\tt\mc \ \ \ \ \ \ \ \ }move{\tt\_}discs{\tt\mc \ }{\tt\$}((n{\tt\mc \ }{\tt -}{\tt\mc \ }1)){\tt\mc \ }{\tt "}{\tt\$}k{\tt "}{\tt\mc \ }{\tt "}{\tt\$}j{\tt "}{\tt\mc \ }{\tt "}{\tt\$}i{\tt "}
+
+\noindent
+\mbox{}{\tt\mc \ \ \ \ }fi
+
+\noindent
+\mbox{}{\tt\char'175}
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}init{\tt\_}array
+
+\noindent
+\mbox{}print{\tt\_}result
+
+\noindent
+\mbox{}move{\tt\_}discs{\tt\mc \ }{\tt\$}ARRAY{\tt\mc \ }0{\tt\mc \ }2{\tt\mc \ }1
+
+\noindent
+\mbox{}
+
+\rm\mc
+
+\end{document}

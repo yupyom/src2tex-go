@@ -1,0 +1,339 @@
+\documentclass{article}
+\usepackage{iftex}
+\ifXeTeX
+  \usepackage{fontspec}
+  \usepackage{xeCJK}
+  \usepackage[haranoaji]{zxjafont}
+  \XeTeXlinebreaklocale ""
+\fi
+\ifLuaTeX
+  \usepackage[haranoaji]{luatexja-preset}
+\fi
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage{graphicx}
+\newdimen\charwd
+{\tt\global\setbox0=\hbox{x}\global\charwd=\wd0}
+\frenchspacing
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhf{}
+\fancyhead[R]{\rm src2tex-go version 2.23}
+% plain TeX compatibility
+\makeatletter
+\providecommand{\eqalign}[1]{\vcenter{\openup1\jot\m@th
+  \ialign{\strut\hfil$\displaystyle{##}$&$\displaystyle{{}##}$\hfil\crcr#1\crcr}}}
+\makeatother
+\fancyfoot[R]{\rm\hfill samples{\tt /}farmer+hen.scm\qquad page \thepage}
+\begin{document}
+
+\ifx\sevenrm\undefined
+  \font\sevenrm=cmr7 scaled \magstep0
+\fi
+
+\newread\MyStyle
+\openin\MyStyle=src2latex.s2t
+\ifeof\MyStyle
+  \closein\MyStyle
+\else
+  \input src2latex.s2t
+  \closein\MyStyle
+\fi
+
+\def\mc{\relax}
+\def\gt{\relax}
+\def\sc{\scshape}
+
+\tt\mc 
+
+\noindent
+\rm\mc \hfill
+
+\noindent
+\mbox{}\bf % ;;\kern1\charwd  \src2tex{texfont=bf} \bf 
+
+\noindent
+\mbox{};;\kern1\charwd [問題]\kern1\charwd あるお百姓さんが、大八車を引きながら村はずれの川の西の岸にやってきた
+
+\noindent
+\mbox{};;\kern1\charwd 大八車には、荒縄でくくられたキャベツと背負い駕篭に入ったニワトリが積まれ
+
+\noindent
+\mbox{};;\kern1\charwd ていた。明日は隣村に市が立つので、その市でキャベツとニワトリを売ろうとい
+
+\noindent
+\mbox{};;\kern1\charwd うわけである。その後を、お百姓さんにすっかりなついてしまったキツネのコン
+
+\noindent
+\mbox{};;\kern1\charwd 太が、いかにもニワトリを食べたそうなそぶりて、着いて来ていた。
+
+\noindent
+\mbox{}\rm\mc % ;;\kern1\charwd  \src2tex{texfont=rm} \rm\mc 
+
+\noindent
+\mbox{};;\kern1\charwd さて、川のほとりには一艘の小さな船がつないであった。この船で、お百姓さん
+
+\noindent
+\mbox{};;\kern1\charwd はニワトリ、キャベツ、キツネのすべてを川の東の岸へ運ばなければならない。
+
+\noindent
+\mbox{};;\kern1\charwd 困ったことに、この船は大変小さかったので、船をあやつるお百姓さん以外に
+
+\noindent
+\mbox{};;\kern1\charwd 一度に運べるのは、ニワトリ、キャベツ、キツネのうちのどれか一つだけだった。
+
+\noindent
+\mbox{};;\kern1\charwd ところが、腹のへったニワトリは、お百姓さんがいなくなるとキャベツを食べて
+
+\noindent
+\mbox{};;\kern1\charwd しまい、さらにキツネのコン太はお百姓さんが目を離すと、ニワトリを食べてし
+
+\noindent
+\mbox{};;\kern1\charwd まう。
+
+\noindent
+\mbox{}\bf % ;;\kern1\charwd  \src2tex{texfont=bf} \bf 
+
+\noindent
+\mbox{};;\kern1\charwd どうやったら、お百姓さんは首尾良くニワトリ、キャベツ、キツネのすべてを東
+
+\noindent
+\mbox{};;\kern1\charwd 側の岸に運べるだろうか？
+
+\noindent
+\mbox{}\tt\mc \hfill
+
+\noindent
+\mbox{}\bf \sc % ;;\kern1\charwd  \src2tex{texfont=sc} \sc 
+
+\noindent
+\mbox{};;\kern1\charwd farmer+hen.scm\kern2\charwd by\kern2\charwd Kazuo\kern1\charwd AMANO
+
+\noindent
+\mbox{};;\kern1\charwd east{\tt -}side{\tt -}state\kern1\charwd is\kern1\charwd represented\kern1\charwd by\kern1\charwd list\kern1\charwd $(w\ x\ y\ z)$\sc \kern1\charwd where\kern1\charwd each\kern1\charwd $w, x, y, z = 0$\sc \kern1\charwd or\kern1\charwd $1$\sc 
+
+\noindent
+\mbox{};;\kern1\charwd example:\kern1\charwd  \null\[
+  \begin{array}{l}
+ 	(1\ 1\ 1\ 1) = {\rm (farmer\ hen\ cabbage\ fox)-state}\\
+ 	(0\ 1\ 0\ 1) = {\rm (none\ hen\ none\ fox)-state}\\
+ 	(1\ 0\ 1\ 0) = {\rm (farmer\ none\ cabbage\ none)-state}
+  \end{array}
+  \] \sc 
+
+\noindent
+\mbox{};;\kern1\charwd initial{\tt -}state\kern1\charwd =\kern1\charwd (1\kern1\charwd 1\kern1\charwd 1\kern1\charwd 1)
+
+\noindent
+\mbox{};;\kern1\charwd state{\tt -}sequence\kern1\charwd =\kern1\charwd (...\kern1\charwd state2\kern1\charwd state1\kern1\charwd initial{\tt -}state)
+
+\noindent
+\mbox{};;\kern1\charwd state{\tt -}tree\kern1\charwd =\kern1\charwd (...\kern1\charwd state{\tt -}sequece2\kern1\charwd state{\tt -}sequence1\kern1\charwd state{\tt -}sequence0)
+
+\noindent
+\mbox{}\tt\mc \hfill
+
+\noindent
+\mbox{}\sc \rm\mc % ;\kern1\charwd  \src2tex{htab=4 textfont=it texfont=rm} \rm\mc 
+
+\noindent
+\mbox{};\kern2\charwd 西から東への移動
+
+\noindent
+\mbox{}\it (define{\it \kern1\charwd}(west{\tt -}{\tt >}east{\it \kern1\charwd}x{\it \kern1\charwd}seq)
+
+\noindent
+\mbox{}{\it \kern2\charwd}(let{\tt *}{\it \kern1\charwd}((y{\it \kern1\charwd}(car{\it \kern1\charwd}seq)){\it \kern1\charwd}(fa{\it \kern1\charwd}(car{\it \kern1\charwd}y)){\it \kern1\charwd}(he{\it \kern1\charwd}(cadr{\it \kern1\charwd}y)){\it \kern1\charwd}(ca{\it \kern1\charwd}(caddr{\it \kern1\charwd}y)){\it \kern1\charwd}(fo{\it \kern1\charwd}(cadddr{\it \kern1\charwd}y)))
+
+\noindent
+\mbox{}{\it \kern4\charwd}(cond{\it \kern1\charwd}((={\it \kern1\charwd}fa{\it \kern1\charwd}0){\it \kern1\charwd}(cons{\it \kern1\charwd}'(){\it \kern1\charwd}seq))
+
+\noindent
+\mbox{}{\it \kern4\charwd}{\it \kern2\charwd}(else{\it \kern1\charwd}(cond{\it \kern1\charwd}((and{\it \kern1\charwd}(equal?{\it \kern1\charwd}x{\it \kern1\charwd}'hen){\it \kern1\charwd}(={\it \kern1\charwd}he{\it \kern1\charwd}1)){\it \kern1\charwd}(cons{\it \kern1\charwd}(list{\it \kern1\charwd}0{\it \kern1\charwd}0{\it \kern1\charwd}ca{\it \kern1\charwd}fo){\it \kern1\charwd}seq))
+
+\noindent
+\mbox{}{\it \kern4\charwd}{\it \kern4\charwd}{\it \kern6\charwd}((and{\it \kern1\charwd}(equal?{\it \kern1\charwd}x{\it \kern1\charwd}'cabbage){\it \kern1\charwd}(={\it \kern1\charwd}ca{\it \kern1\charwd}1)){\it \kern1\charwd}(cons{\it \kern1\charwd}(list{\it \kern1\charwd}0{\it \kern1\charwd}he{\it \kern1\charwd}0{\it \kern1\charwd}fo){\it \kern1\charwd}seq))
+
+\noindent
+\mbox{}{\it \kern4\charwd}{\it \kern4\charwd}{\it \kern6\charwd}((and{\it \kern1\charwd}(equal?{\it \kern1\charwd}x{\it \kern1\charwd}'fox){\it \kern1\charwd}(={\it \kern1\charwd}fo{\it \kern1\charwd}1)){\it \kern1\charwd}(cons{\it \kern1\charwd}(list{\it \kern1\charwd}0{\it \kern1\charwd}he{\it \kern1\charwd}ca{\it \kern1\charwd}0){\it \kern1\charwd}seq))
+
+\noindent
+\mbox{}{\it \kern4\charwd}{\it \kern4\charwd}{\it \kern6\charwd}(else{\it \kern1\charwd}(cons{\it \kern1\charwd}'(){\it \kern1\charwd}seq)))))))
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}\rm\mc \rm\mc % ;\kern1\charwd  \src2tex{htab=4 textfont=it texfont=rm} \rm\mc 
+
+\noindent
+\mbox{};\kern2\charwd 東から西への移動
+
+\noindent
+\mbox{}\it (define{\it \kern1\charwd}(west{\tt <}{\tt -}east{\it \kern1\charwd}x{\it \kern1\charwd}seq)
+
+\noindent
+\mbox{}{\it \kern2\charwd}(let{\tt *}{\it \kern1\charwd}((y{\it \kern1\charwd}(car{\it \kern1\charwd}seq)){\it \kern1\charwd}(fa{\it \kern1\charwd}(car{\it \kern1\charwd}y)){\it \kern1\charwd}(he{\it \kern1\charwd}(cadr{\it \kern1\charwd}y)){\it \kern1\charwd}(ca{\it \kern1\charwd}(caddr{\it \kern1\charwd}y)){\it \kern1\charwd}(fo{\it \kern1\charwd}(cadddr{\it \kern1\charwd}y)))
+
+\noindent
+\mbox{}{\it \kern4\charwd}(cond{\it \kern1\charwd}((={\it \kern1\charwd}fa{\it \kern1\charwd}1){\it \kern1\charwd}(cons{\it \kern1\charwd}'(){\it \kern1\charwd}seq))
+
+\noindent
+\mbox{}{\it \kern4\charwd}{\it \kern2\charwd}(else{\it \kern1\charwd}(cond{\it \kern1\charwd}((and{\it \kern1\charwd}(equal?{\it \kern1\charwd}x{\it \kern1\charwd}'hen){\it \kern1\charwd}(={\it \kern1\charwd}he{\it \kern1\charwd}0)){\it \kern1\charwd}(cons{\it \kern1\charwd}(list{\it \kern1\charwd}1{\it \kern1\charwd}1{\it \kern1\charwd}ca{\it \kern1\charwd}fo){\it \kern1\charwd}seq))
+
+\noindent
+\mbox{}{\it \kern4\charwd}{\it \kern4\charwd}{\it \kern6\charwd}((and{\it \kern1\charwd}(equal?{\it \kern1\charwd}x{\it \kern1\charwd}'cabbage){\it \kern1\charwd}(={\it \kern1\charwd}ca{\it \kern1\charwd}0)){\it \kern1\charwd}(cons{\it \kern1\charwd}(list{\it \kern1\charwd}1{\it \kern1\charwd}he{\it \kern1\charwd}1{\it \kern1\charwd}fo){\it \kern1\charwd}seq))
+
+\noindent
+\mbox{}{\it \kern4\charwd}{\it \kern4\charwd}{\it \kern6\charwd}((and{\it \kern1\charwd}(equal?{\it \kern1\charwd}x{\it \kern1\charwd}'fox){\it \kern1\charwd}(={\it \kern1\charwd}fo{\it \kern1\charwd}0)){\it \kern1\charwd}(cons{\it \kern1\charwd}(list{\it \kern1\charwd}1{\it \kern1\charwd}he{\it \kern1\charwd}ca{\it \kern1\charwd}1){\it \kern1\charwd}seq))
+
+\noindent
+\mbox{}{\it \kern4\charwd}{\it \kern4\charwd}{\it \kern6\charwd}((equal?{\it \kern1\charwd}x{\it \kern1\charwd}'none){\it \kern1\charwd}(cons{\it \kern1\charwd}(list{\it \kern1\charwd}1{\it \kern1\charwd}he{\it \kern1\charwd}ca{\it \kern1\charwd}fo){\it \kern1\charwd}seq))
+
+\noindent
+\mbox{}{\it \kern4\charwd}{\it \kern4\charwd}{\it \kern6\charwd}(else{\it \kern1\charwd}(cons{\it \kern1\charwd}'(){\it \kern1\charwd}seq)))))))
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}\rm\mc \rm\mc % ;\kern1\charwd  \src2tex{htab=4 textfont=sl texfont=rm} \rm\mc 
+
+\noindent
+\mbox{};\kern2\charwd 終了の判定をする関数
+
+\noindent
+\mbox{}\sl (define{\sl \kern1\charwd}(finished?{\sl \kern1\charwd}tree)
+
+\noindent
+\mbox{}{\sl \kern2\charwd}(let{\sl \kern1\charwd}finished1?{\sl \kern1\charwd}((x{\sl \kern1\charwd}tree))
+
+\noindent
+\mbox{}{\sl \kern4\charwd}(cond{\sl \kern1\charwd}((null?{\sl \kern1\charwd}x){\sl \kern1\charwd}{\tt\#}f)
+
+\noindent
+\mbox{}{\sl \kern4\charwd}{\sl \kern2\charwd}((equal?{\sl \kern1\charwd}(caar{\sl \kern1\charwd}x){\sl \kern1\charwd}'(0{\sl \kern1\charwd}0{\sl \kern1\charwd}0{\sl \kern1\charwd}0)){\sl \kern1\charwd}{\tt\#}t)
+
+\noindent
+\mbox{}{\sl \kern4\charwd}{\sl \kern2\charwd}(else{\sl \kern1\charwd}(finished1?{\sl \kern1\charwd}(cdr{\sl \kern1\charwd}x))))))
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}\rm\mc \rm\mc % ;\kern1\charwd  \src2tex{htab=4 textfont=sl texfont=rm} \rm\mc 
+
+\noindent
+\mbox{};\kern2\charwd 不適当な\kern1\charwd branch\kern1\charwd を切り落とす関数
+
+\noindent
+\mbox{}\sl (define{\sl \kern1\charwd}(rm{\tt -}bad{\tt -}seq{\sl \kern1\charwd}tree)
+
+\noindent
+\mbox{}{\sl \kern2\charwd}(let{\sl \kern1\charwd}rm{\tt -}bad{\tt -}seq1{\sl \kern1\charwd}((x{\sl \kern1\charwd}tree){\sl \kern1\charwd}(y{\sl \kern1\charwd}'()))
+
+\noindent
+\mbox{}{\sl \kern4\charwd}(cond{\sl \kern1\charwd}((null?{\sl \kern1\charwd}x){\sl \kern1\charwd}y)
+
+\noindent
+\mbox{}{\sl \kern4\charwd}{\sl \kern2\charwd}((null?{\sl \kern1\charwd}(caar{\sl \kern1\charwd}x)){\sl \kern1\charwd}(rm{\tt -}bad{\tt -}seq1{\sl \kern1\charwd}(cdr{\sl \kern1\charwd}x){\sl \kern1\charwd}y))
+
+\noindent
+\mbox{}{\sl \kern4\charwd}{\sl \kern2\charwd}((equal?{\sl \kern1\charwd}(caar{\sl \kern1\charwd}x){\sl \kern1\charwd}'(1{\sl \kern1\charwd}0{\sl \kern1\charwd}1{\sl \kern1\charwd}0)){\sl \kern1\charwd}(rm{\tt -}bad{\tt -}seq1{\sl \kern1\charwd}(cdr{\sl \kern1\charwd}x){\sl \kern1\charwd}y))
+
+\noindent
+\mbox{}{\sl \kern4\charwd}{\sl \kern2\charwd}((equal?{\sl \kern1\charwd}(caar{\sl \kern1\charwd}x){\sl \kern1\charwd}'(1{\sl \kern1\charwd}0{\sl \kern1\charwd}0{\sl \kern1\charwd}1)){\sl \kern1\charwd}(rm{\tt -}bad{\tt -}seq1{\sl \kern1\charwd}(cdr{\sl \kern1\charwd}x){\sl \kern1\charwd}y))
+
+\noindent
+\mbox{}{\sl \kern4\charwd}{\sl \kern2\charwd}((equal?{\sl \kern1\charwd}(caar{\sl \kern1\charwd}x){\sl \kern1\charwd}'(0{\sl \kern1\charwd}1{\sl \kern1\charwd}1{\sl \kern1\charwd}0)){\sl \kern1\charwd}(rm{\tt -}bad{\tt -}seq1{\sl \kern1\charwd}(cdr{\sl \kern1\charwd}x){\sl \kern1\charwd}y))
+
+\noindent
+\mbox{}{\sl \kern4\charwd}{\sl \kern2\charwd}((equal?{\sl \kern1\charwd}(caar{\sl \kern1\charwd}x){\sl \kern1\charwd}'(0{\sl \kern1\charwd}1{\sl \kern1\charwd}0{\sl \kern1\charwd}1)){\sl \kern1\charwd}(rm{\tt -}bad{\tt -}seq1{\sl \kern1\charwd}(cdr{\sl \kern1\charwd}x){\sl \kern1\charwd}y))
+
+\noindent
+\mbox{}{\sl \kern4\charwd}{\sl \kern2\charwd}((equal?{\sl \kern1\charwd}(caar{\sl \kern1\charwd}x){\sl \kern1\charwd}'(1{\sl \kern1\charwd}1{\sl \kern1\charwd}1{\sl \kern1\charwd}1)){\sl \kern1\charwd}(rm{\tt -}bad{\tt -}seq1{\sl \kern1\charwd}(cdr{\sl \kern1\charwd}x){\sl \kern1\charwd}y))
+
+\noindent
+\mbox{}{\sl \kern4\charwd}{\sl \kern2\charwd}(else{\sl \kern1\charwd}(rm{\tt -}bad{\tt -}seq1{\sl \kern1\charwd}(cdr{\sl \kern1\charwd}x){\sl \kern1\charwd}(cons{\sl \kern1\charwd}(car{\sl \kern1\charwd}x){\sl \kern1\charwd}y))))))
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}\rm\mc \bf % ;\kern1\charwd  \src2tex{htab=4 textfont=sl texfont=bf} \bf 
+
+\noindent
+\mbox{};\kern2\charwd branch\kern1\charwd を成長させる関数
+
+\noindent
+\mbox{}\sl (define{\sl \kern1\charwd}(mkseq{\sl \kern1\charwd}seq)
+
+\noindent
+\mbox{}{\sl \kern4\charwd}(rm{\tt -}bad{\tt -}seq
+
+\noindent
+\mbox{}{\sl \kern5\charwd}(list{\sl \kern1\charwd}(west{\tt -}{\tt >}east{\sl \kern1\charwd}'hen{\sl \kern1\charwd}seq){\sl \kern1\charwd}(west{\tt -}{\tt >}east{\sl \kern1\charwd}'cabbage{\sl \kern1\charwd}seq){\sl \kern1\charwd}(west{\tt -}{\tt >}east{\sl \kern1\charwd}'fox{\sl \kern1\charwd}seq)
+
+\noindent
+\mbox{}{\sl \kern4\charwd}{\sl \kern3\charwd}(west{\tt <}{\tt -}east{\sl \kern1\charwd}'hen{\sl \kern1\charwd}seq){\sl \kern1\charwd}(west{\tt <}{\tt -}east{\sl \kern1\charwd}'cabbage{\sl \kern1\charwd}seq){\sl \kern1\charwd}(west{\tt <}{\tt -}east{\sl \kern1\charwd}'fox{\sl \kern1\charwd}seq)
+
+\noindent
+\mbox{}{\sl \kern4\charwd}{\sl \kern3\charwd}(west{\tt <}{\tt -}east{\sl \kern1\charwd}'none{\sl \kern1\charwd}seq))))
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}\bf \bf % ;\kern1\charwd  \src2tex{htab=4 textfont=tt texfont=bf} \bf 
+
+\noindent
+\mbox{};\kern2\charwd 手順の\kern1\charwd tree\kern1\charwd を作る関数
+
+\noindent
+\mbox{}\tt\mc (define{\tt\mc \kern1\charwd}(mktree{\tt\mc \kern1\charwd}initial{\tt -}state)
+
+\noindent
+\mbox{}{\tt\mc \kern2\charwd}(let{\tt\mc \kern1\charwd}mktree1{\tt\mc \kern1\charwd}((x{\tt\mc \kern1\charwd}(list{\tt\mc \kern1\charwd}(list{\tt\mc \kern1\charwd}initial{\tt -}state))))
+
+\noindent
+\mbox{}{\tt\mc \kern4\charwd}(cond{\tt\mc \kern1\charwd}((finished?{\tt\mc \kern1\charwd}x){\tt\mc \kern1\charwd}x)
+
+\noindent
+\mbox{}{\tt\mc \kern4\charwd}{\tt\mc \kern2\charwd}(else{\tt\mc \kern1\charwd}(mktree1{\tt\mc \kern1\charwd}(let{\tt\mc \kern1\charwd}mktree2{\tt\mc \kern1\charwd}((x1{\tt\mc \kern1\charwd}x){\tt\mc \kern1\charwd}(x2{\tt\mc \kern1\charwd}'()))
+
+\noindent
+\mbox{}{\tt\mc \kern4\charwd}{\tt\mc \kern4\charwd}{\tt\mc \kern4\charwd}{\tt\mc \kern3\charwd}(cond{\tt\mc \kern1\charwd}((null?{\tt\mc \kern1\charwd}x1){\tt\mc \kern1\charwd}x2)
+
+\noindent
+\mbox{}{\tt\mc \kern4\charwd}{\tt\mc \kern4\charwd}{\tt\mc \kern4\charwd}{\tt\mc \kern4\charwd}{\tt\mc \kern1\charwd}(else{\tt\mc \kern1\charwd}(mktree2{\tt\mc \kern1\charwd}(cdr{\tt\mc \kern1\charwd}x1){\tt\mc \kern1\charwd}(append{\tt\mc \kern1\charwd}x2{\tt\mc \kern1\charwd}(mkseq{\tt\mc \kern1\charwd}(car{\tt\mc \kern1\charwd}x1))))))))))))
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}\bf \bf % ;\kern1\charwd  \src2tex{htab=4 textfont=bf texfont=bf} \bf 
+
+\noindent
+\mbox{};\kern2\charwd main\kern1\charwd 関数
+
+\noindent
+\mbox{}\bf (define{\bf \kern1\charwd}(main{\tt -}func)
+
+\noindent
+\mbox{}{\bf \kern2\charwd}(let{\bf \kern1\charwd}display{\tt -}answer{\bf \kern1\charwd}((x{\bf \kern1\charwd}(mktree{\bf \kern1\charwd}'(1{\bf \kern1\charwd}1{\bf \kern1\charwd}1{\bf \kern1\charwd}1))))
+
+\noindent
+\mbox{}{\bf \kern4\charwd}(cond{\bf \kern1\charwd}((null?{\bf \kern1\charwd}x){\bf \kern1\charwd}(newline))
+
+\noindent
+\mbox{}{\bf \kern4\charwd}{\bf \kern2\charwd}(else{\bf \kern1\charwd}(cond{\bf \kern1\charwd}((equal?{\bf \kern1\charwd}(caar{\bf \kern1\charwd}x){\bf \kern1\charwd}'(0{\bf \kern1\charwd}0{\bf \kern1\charwd}0{\bf \kern1\charwd}0)){\bf \kern1\charwd}(display{\bf \kern1\charwd}(car{\bf \kern1\charwd}x)){\bf \kern1\charwd}(newline)))
+
+\noindent
+\mbox{}{\bf \kern4\charwd}{\bf \kern4\charwd}(display{\tt -}answer{\bf \kern1\charwd}(cdr{\bf \kern1\charwd}x))))))
+
+\noindent
+\mbox{}
+
+\rm\mc
+
+\end{document}

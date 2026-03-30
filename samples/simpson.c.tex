@@ -1,0 +1,268 @@
+\documentclass{article}
+\usepackage{iftex}
+\ifXeTeX
+  \usepackage{fontspec}
+  \usepackage{xeCJK}
+  \usepackage[haranoaji]{zxjafont}
+  \XeTeXlinebreaklocale ""
+\fi
+\ifLuaTeX
+  \usepackage[haranoaji]{luatexja-preset}
+\fi
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage{graphicx}
+\newdimen\charwd
+{\tt\global\setbox0=\hbox{x}\global\charwd=\wd0}
+\frenchspacing
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhf{}
+\fancyhead[R]{\rm src2tex-go version 2.23}
+% plain TeX compatibility
+\makeatletter
+\providecommand{\eqalign}[1]{\vcenter{\openup1\jot\m@th
+  \ialign{\strut\hfil$\displaystyle{##}$&$\displaystyle{{}##}$\hfil\crcr#1\crcr}}}
+\makeatother
+\fancyfoot[R]{\rm\hfill samples{\tt /}simpson.c\qquad page \thepage}
+\begin{document}
+
+\ifx\sevenrm\undefined
+  \font\sevenrm=cmr7 scaled \magstep0
+\fi
+
+\newread\MyStyle
+\openin\MyStyle=src2latex.s2t
+\ifeof\MyStyle
+  \closein\MyStyle
+\else
+  \input src2latex.s2t
+  \closein\MyStyle
+\fi
+
+\def\mc{\relax}
+\def\gt{\relax}
+\def\sc{\scshape}
+
+\tt\mc 
+
+\noindent
+\rm\mc {\tt /}{\tt *}\kern1\charwd  \hrulefill \rm\mc \kern1\charwd {\tt *}
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{} \bf Simpson \rm\mc の公式
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{} {}% beginning of TeX mode
+
+\noindent
+定積分 $\displaystyle\int_a^b f(x)\,dx$ を計算する一つの方法として、
+次の近似式が良く使われる。
+
+$$\int_a^b f(x)\,dx\sim{h\over3}\,(y_0+4y_1+2y_2+4y_3+2y_4+4y_5+
+					\cdots +2y_{n-2}+4y_{n-1}+y_n)\ ,$$
+
+\noindent
+ここで、自然数 $n$ は偶数とし、
+$\displaystyle x_i=a+{i\over n}\,(b-a),\ y_i=f(x_i)\quad (i=0, 1, 2, \cdots, n)$
+とする。
+この公式の証明は、比較的やさしい。
+じっさい、Taylor の定理から導かれる等式
+
+$$\int_{\xi-{1\over h}}^{\xi+{1\over h}}f(x)\,dx
+	\sim\int_{\xi-{1\over h}}^{\xi+{1\over h}}p(x)\,dx
+	={h\over3}\,\bigl(f(\xi-{1\over h})+4f(\xi)+f(\xi+{1\over h})\bigr)+O(h^5)$$
+
+\noindent
+を $\,\displaystyle{n\over2}\,$ 個足し合わせることにより、
+この公式は証明される。
+\begin{center}
+\includegraphics[scale=.7]{simpson}
+\end{center}
+
+
+\noindent
+ここで、$p(x)$ は次のような条件を満足する２次の多項式を表す:
+$$
+p\Bigl(\xi-{1\over h}\Bigr)=f\Bigl(\xi-{1\over h}\Bigr),
+\ p(\xi)=f(\xi),
+\ p\Bigl(\xi+{1\over h}\Bigr)=f\Bigl(\xi+{1\over h}\Bigr)\ .
+$$
+
+\noindent
+{\tt A, B, F(X), N} の定義をいろいろと変えて、各人で数値実験を行ってみよう。
+
+% end of TeX mode  \rm\mc 
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}{\tt *}\kern1\charwd  \hrulefill \rm\mc \kern1\charwd {\tt *}{\tt /}
+\tt\mc 
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}\rm\mc {\tt /}{\tt *}\kern1\charwd  \hrulefill\ simpson.c\ \hrulefill \rm\mc \kern1\charwd {\tt *}{\tt /}
+\tt\mc 
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}{\tt\#}include{\tt\mc \kern1\charwd}{\tt <}stdio.h{\tt >}
+
+\noindent
+\mbox{}{\tt\#}define{\tt\mc \kern1\charwd}A{\tt\mc \kern1\charwd}0.{\tt\mc \kern4\charwd}{\tt\mc \kern8\charwd}{\tt\mc \kern8\charwd}{\tt\mc \kern8\charwd}\rm\mc {\tt /}{\tt *}\kern1\charwd 積分をする区間\kern1\charwd $[a, b]$\rm\mc \kern1\charwd  \hfill \rm\mc \kern1\charwd {\tt *}{\tt /}
+\tt\mc 
+
+\noindent
+\mbox{}{\tt\#}define{\tt\mc \kern1\charwd}B{\tt\mc \kern1\charwd}1.
+
+\noindent
+\mbox{}{\tt\#}define{\tt\mc \kern1\charwd}F(X){\tt\mc \kern1\charwd}((X){\tt *}(X)){\tt\mc \kern2\charwd}{\tt\mc \kern8\charwd}{\tt\mc \kern8\charwd}\rm\mc {\tt /}{\tt *}\kern1\charwd 被積分関数\kern1\charwd $f(x)$\rm\mc \kern1\charwd  \hfill \rm\mc \kern1\charwd {\tt *}{\tt /}
+\tt\mc 
+
+\noindent
+\mbox{}{\tt\#}define{\tt\mc \kern1\charwd}N{\tt\mc \kern1\charwd}20{\tt\mc \kern4\charwd}{\tt\mc \kern8\charwd}{\tt\mc \kern8\charwd}{\tt\mc \kern8\charwd}\rm\mc {\tt /}{\tt *}\kern1\charwd  {}区間 $[a, b]$ の分割数 $n$
+					   \hfill \rm\mc \kern1\charwd {\tt *}{\tt /}
+\tt\mc 
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}double{\tt\mc \kern1\charwd}simpson{\tt\_\kern.141em}rule(){\tt\mc \kern3\charwd}{\tt\mc \kern8\charwd}{\tt\mc \kern8\charwd}\rm\mc {\tt /}{\tt *}\kern1\charwd  {}Simpson の公式を用いて
+					   $\displaystyle\int_a^b f(x)\,dx$
+					   を計算する関数 \hfill \rm\mc \kern1\charwd {\tt *}{\tt /}
+\tt\mc 
+
+\noindent
+\mbox{}{\tt\char'173}
+
+\noindent
+\mbox{}{\tt\mc \kern4\charwd}long{\tt\mc \kern1\charwd}i;{\tt\mc \kern5\charwd}{\tt\mc \kern8\charwd}{\tt\mc \kern8\charwd}{\tt\mc \kern8\charwd}\rm\mc {\tt /}{\tt *}\kern1\charwd long\kern1\charwd 整数を使う\kern1\charwd  \hfill \rm\mc \kern1\charwd {\tt *}{\tt /}
+\tt\mc 
+
+\noindent
+\mbox{}{\tt\mc \kern4\charwd}double{\tt\mc \kern1\charwd}h,{\tt\mc \kern1\charwd}s,{\tt\mc \kern1\charwd}y[N{\tt\mc \kern1\charwd}+{\tt\mc \kern1\charwd}1];{\tt\mc \kern6\charwd}{\tt\mc \kern8\charwd}\rm\mc {\tt /}{\tt *}\kern1\charwd  {}メッシュ $h$, 積分値 $s$,
+					   分点 $\displaystyle{i\over n}$
+					   での関数値 $y_i$ \hfill \rm\mc \kern1\charwd {\tt *}{\tt /}
+\tt\mc 
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}{\tt\mc \kern4\charwd}h{\tt\mc \kern1\charwd}={\tt\mc \kern1\charwd}1.{\tt\mc \kern1\charwd}{\tt /}{\tt\mc \kern1\charwd}(double){\tt\mc \kern1\charwd}N;{\tt\mc \kern8\charwd}{\tt\mc \kern8\charwd}\rm\mc {\tt /}{\tt *}\kern1\charwd  {}$\displaystyle h={1\over n}$
+					 \hfill \rm\mc \kern1\charwd {\tt *}{\tt /}
+\tt\mc 
+
+\noindent
+\mbox{}{\tt\mc \kern4\charwd}for{\tt\mc \kern1\charwd}(i{\tt\mc \kern1\charwd}={\tt\mc \kern1\charwd}0;{\tt\mc \kern1\charwd}i{\tt\mc \kern1\charwd}{\tt <}={\tt\mc \kern1\charwd}N;{\tt\mc \kern1\charwd}++i){\tt\mc \kern4\charwd}{\tt\mc \kern8\charwd}\rm\mc {\tt /}{\tt *}\kern1\charwd  {}$\displaystyle y_i
+					   =f\bigl({i\over n}\bigr)
+					   \quad (i=0, 1, 2, \cdots, n)$
+					   \hfill \rm\mc \kern1\charwd {\tt *}{\tt /}
+\tt\mc 
+
+\noindent
+\mbox{}{\tt\mc \kern8\charwd}y[i]{\tt\mc \kern1\charwd}={\tt\mc \kern1\charwd}F((double){\tt\mc \kern1\charwd}i{\tt\mc \kern1\charwd}{\tt /}{\tt\mc \kern1\charwd}(double){\tt\mc \kern1\charwd}N);
+
+\noindent
+\mbox{}{\tt\mc \kern8\charwd}{\tt\mc \kern8\charwd}{\tt\mc \kern8\charwd}{\tt\mc \kern8\charwd}{\tt\mc \kern8\charwd}\rm\mc {\tt /}{\tt *}\kern1\charwd 以下は\kern1\charwd  \hfill \rm\mc \kern1\charwd {\tt *}{\tt /}
+\tt\mc 
+
+\noindent
+\mbox{}{\tt\mc \kern8\charwd}{\tt\mc \kern8\charwd}{\tt\mc \kern8\charwd}{\tt\mc \kern8\charwd}{\tt\mc \kern8\charwd}\rm\mc {\tt /}{\tt *}\kern1\charwd $\displaystyle
+					   s={h\over3}(y_0+4y_1+2y_2+4y_3+
+					   \cdots +4y_{n-1}+y_n)$\rm\mc \kern1\charwd  \hfill \rm\mc \kern1\charwd {\tt *}{\tt /}
+\tt\mc 
+
+\noindent
+\mbox{}{\tt\mc \kern8\charwd}{\tt\mc \kern8\charwd}{\tt\mc \kern8\charwd}{\tt\mc \kern8\charwd}{\tt\mc \kern8\charwd}\rm\mc {\tt /}{\tt *}\kern1\charwd の計算\kern1\charwd  \hfill \rm\mc \kern1\charwd {\tt *}{\tt /}
+\tt\mc 
+
+\noindent
+\mbox{}{\tt\mc \kern4\charwd}s{\tt\mc \kern1\charwd}={\tt\mc \kern1\charwd}y[0];
+
+\noindent
+\mbox{}{\tt\mc \kern4\charwd}for{\tt\mc \kern1\charwd}(i{\tt\mc \kern1\charwd}={\tt\mc \kern1\charwd}1;{\tt\mc \kern1\charwd}i{\tt\mc \kern1\charwd}{\tt <}{\tt\mc \kern1\charwd}N;{\tt\mc \kern1\charwd}++i)
+
+\noindent
+\mbox{}{\tt\mc \kern4\charwd}{\tt\char'173}
+
+\noindent
+\mbox{}{\tt\mc \kern8\charwd}if{\tt\mc \kern1\charwd}(i{\tt\mc \kern1\charwd}{\tt\%}{\tt\mc \kern1\charwd}2{\tt\mc \kern1\charwd}=={\tt\mc \kern1\charwd}1){\tt\mc \kern1\charwd}{\tt\mc \kern8\charwd}{\tt\mc \kern8\charwd}\rm\mc {\tt /}{\tt *}\kern1\charwd  {}ただし {\tt i \% 2}= $i\ $
+					   を 2 で割った余り \hfill \rm\mc \kern1\charwd {\tt *}{\tt /}
+\tt\mc 
+
+\noindent
+\mbox{}{\tt\mc \kern8\charwd}{\tt\mc \kern4\charwd}s{\tt\mc \kern1\charwd}+={\tt\mc \kern1\charwd}4.{\tt\mc \kern1\charwd}{\tt *}{\tt\mc \kern1\charwd}y[i];
+
+\noindent
+\mbox{}{\tt\mc \kern8\charwd}else
+
+\noindent
+\mbox{}{\tt\mc \kern8\charwd}{\tt\mc \kern4\charwd}s{\tt\mc \kern1\charwd}+={\tt\mc \kern1\charwd}2.{\tt\mc \kern1\charwd}{\tt *}{\tt\mc \kern1\charwd}y[i];
+
+\noindent
+\mbox{}{\tt\mc \kern4\charwd}{\tt\char'175}
+
+\noindent
+\mbox{}{\tt\mc \kern4\charwd}s{\tt\mc \kern1\charwd}+={\tt\mc \kern1\charwd}y[N];
+
+\noindent
+\mbox{}{\tt\mc \kern4\charwd}s{\tt\mc \kern1\charwd}{\tt *}={\tt\mc \kern1\charwd}(h{\tt\mc \kern1\charwd}{\tt /}{\tt\mc \kern1\charwd}3.);
+
+\noindent
+\mbox{}{\tt\mc \kern4\charwd}return{\tt\mc \kern1\charwd}s;{\tt\mc \kern3\charwd}{\tt\mc \kern8\charwd}{\tt\mc \kern8\charwd}{\tt\mc \kern8\charwd}\rm\mc {\tt /}{\tt *}\kern1\charwd $s$\rm\mc \kern1\charwd の値を返す\kern1\charwd  \hfill \rm\mc \kern1\charwd {\tt *}{\tt /}
+\tt\mc 
+
+\noindent
+\mbox{}{\tt\char'175}
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}main()
+
+\noindent
+\mbox{}{\tt\char'173}
+
+\noindent
+\mbox{}{\tt\mc \kern4\charwd}double{\tt\mc \kern1\charwd}s;
+
+\noindent
+\mbox{}\hfill
+
+\noindent
+\mbox{}{\tt\mc \kern4\charwd}s{\tt\mc \kern1\charwd}={\tt\mc \kern1\charwd}simpson{\tt\_\kern.141em}rule();{\tt\mc \kern1\charwd}{\tt\mc \kern8\charwd}{\tt\mc \kern8\charwd}\rm\mc {\tt /}{\tt *}\kern1\charwd  {}上で定義した関数
+					   simpson\_rule() を使う \hfill \rm\mc \kern1\charwd {\tt *}{\tt /}
+\tt\mc 
+
+\noindent
+\mbox{}{\tt\mc \kern4\charwd}printf({\tt "}{\tt\%}.16f{\tt\char92}n{\tt "},{\tt\mc \kern1\charwd}s);{\tt\mc \kern7\charwd}{\tt\mc \kern8\charwd}\rm\mc {\tt /}{\tt *}\kern1\charwd  {}$s$ を小数点以下16桁表示する
+					 \hfill \rm\mc \kern1\charwd {\tt *}{\tt /}
+\tt\mc 
+
+\noindent
+\mbox{}{\tt\char'175}
+
+\noindent
+\mbox{}
+
+\rm\mc
+
+\end{document}
