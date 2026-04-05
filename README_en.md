@@ -2,6 +2,8 @@
 
 `src2tex-go` is a fast and simple utility that converts source code from various programming languages into cleanly formatted TeX / LaTeX documents. This is a Go port and extension of the long-standing C utility `src2tex` (v2.12), developed with a focus on maintaining as much backward compatibility as possible.
 
+This is a compatible version of the original. The new version is [src2tex-go-v2.236](https://github.com/yupyom/src2tex-go-v2.236/blob/main/README_en.md).
+
 ## Features
 
 - **Multi-language support**: Automatically detects and formats comments and source code structures for 30+ languages including C, C++, Java, Pascal, Lisp, Scheme, BASIC, Fortran, Perl, Tcl/Tk, and more.
