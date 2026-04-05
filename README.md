@@ -2,6 +2,8 @@
 
 `src2tex-go` は、各種プログラミング言語のソースコードを読みやすくフォーマットされた TeX / LaTeX 形式のファイルに変換するユーティリティです。長年利用されてきた C言語版ユーティリティ `src2tex` (version 2.12) を、できる限りの互換性を維持したまま Go言語で移植・拡張したものです。
 
+こちらはオリジナル版の互換バージョンです。新バージョンは、[src2tex-go-v2.236](https://github.com/yupyom/src2tex-go-v2.236)
+
 ## 特徴
 
 - **多言語対応**: C, C++, Java, Pascal, Lisp, Scheme, BASIC, Fortran, Perl, Tcl/Tk, MATLAB など、多種多様な言語のソースコードやコメントを自動判別し、適切に TeX / LaTeX 形式へ整形します。
